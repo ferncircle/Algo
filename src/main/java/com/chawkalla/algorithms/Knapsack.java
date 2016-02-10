@@ -3,8 +3,8 @@ package com.chawkalla.algorithms;
 public class Knapsack {
 
 	public static void main(String[] args) {
-		int N = Integer.parseInt("3");   // number of items
-		int W = Integer.parseInt("10");   // maximum weight of knapsack
+		int N = Integer.parseInt("5");   // number of items
+		int W = Integer.parseInt("20");   // maximum weight of knapsack
 
 		int[] profit = new int[N+1];
 		int[] weight = new int[N+1];
@@ -51,5 +51,25 @@ public class Knapsack {
 		}
 		
 		System.out.println("Total profit="+opt[N][W]);
+		
+		System.out.println("Using recursion="+maxValue(N, W, profit, weight));
+	}
+	
+	public static int maxValue(int item, int capacity, final int[] profit, final int[] weight){
+		int val=0;
+		if(item<=0 || capacity<=0)
+			return 0;
+		
+		// don't take item n
+		int option1 = maxValue(item-1, capacity, profit, weight);
+
+		// take item n
+		int option2 = Integer.MIN_VALUE;
+		if (weight[item] <= capacity) option2 = profit[item] + maxValue(item-1, capacity-weight[item], profit, weight);
+
+		// select better of two options
+		val = Math.max(option1, option2);
+		
+		return val;
 	}
 }
