@@ -7,8 +7,8 @@ public class LCS {
 	 */
 	public static void main(String[] args) {
 
-		String str1=" banana";
-		String str2=" ananab";
+		String str1="banana";
+		String str2="baana";
 		lcs(str1.toCharArray(), str2.toCharArray());
 
 	}
@@ -17,20 +17,19 @@ public class LCS {
 		
 		int[][] c=new int[a.length+1][b.length+1];
 		
-		for(int i=0;i<=a.length;i++)
-			c[i][0]=0;
-		for(int j=0;j<=b.length;j++)
-			c[0][j]=0;
-		
-		for(int i=1;i<a.length;i++)
-			for(int j=1;j<b.length;j++){
-				if(a[i]==b[j]){
+		for(int i=1;i<=a.length;i++)
+			for(int j=1;j<=b.length;j++){
+				if (i == 0 || j == 0)
+			         c[i][j] = 0;
+				
+				int aIndex=i-1, bIndex=j-1;
+				if(a[aIndex]==b[bIndex]){
 					c[i][j]=c[i-1][j-1]+1;
 				}
 				else
 					c[i][j]=Math.max(c[i][j-1], c[i-1][j]);
 			}
-		System.out.println(c[a.length-1][b.length-1]);
+		System.out.println(c[a.length][b.length]);
 		System.out.println(backtrack(c, a, b, a.length-1, b.length-1));
 		printArray(c, a.length, b.length);
 		

@@ -8,7 +8,7 @@ public class StringMatch {
 	 */
 	public static void main(String[] args) {
 		String T="abcdefwefwk23awfek43r";
-		String P="fedk4";
+		String P="abcdefwefwk23awfek43r";
 		int[][] D=editDistance(T,P,false);
 
 		printMatrix(D, T.length(), P.length());
