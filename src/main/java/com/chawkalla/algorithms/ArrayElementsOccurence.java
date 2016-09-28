@@ -6,7 +6,7 @@ public class ArrayElementsOccurence {
 
 	public static void main(String[] args) {
 		int[] A={1,4,2,4,3,3};
-
+		
 		int multiplier=100;
 		for(int i=0;i<A.length;i++){
 			int currentOriginal=A[i]%multiplier;

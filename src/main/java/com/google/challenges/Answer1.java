@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Answer {
+public class Answer1 {
 	
 	public static int[] answer(int[] data, int n){
 		int[] a=null;
