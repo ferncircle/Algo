@@ -13,6 +13,7 @@ import java.util.Stack;
 /**
  *
  * https://leetcode.com/problems/course-schedule-ii/
+ * Topological sort
  */
 public class CourseSchedule {
 	
@@ -26,8 +27,8 @@ public class CourseSchedule {
 			return null;
 		int[] ret=new int[numCourses];
 		
-		createAdjList(prerequisites);
-		
+		//first crete dependency graph (adjacency list)
+		createAdjList(prerequisites);		
 			
 		try {
 			for(int i=0;i<numCourses;i++){
@@ -63,7 +64,7 @@ public class CourseSchedule {
 	
 	public void visit(int node){
 		if(visiting.contains(node))
-			throw new RuntimeException();
+			throw new RuntimeException(); //cycle
 		visiting.add(node);
 		if(!visited.contains(node)){
 			List<Integer> dep=deps.get(node);

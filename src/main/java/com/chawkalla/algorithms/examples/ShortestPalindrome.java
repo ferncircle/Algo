@@ -5,7 +5,6 @@ package com.chawkalla.algorithms.examples;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -15,71 +14,10 @@ import java.util.HashMap;
 public class ShortestPalindrome {
 
 	class TNode{
-
-		HashMap<String, TNode> edges=new HashMap<String, ShortestPalindrome.TNode>();
-		
-		
+		boolean eof=false;
+		HashMap<String, TNode> edges=new HashMap<String, TNode>();
 	}
-	class Node{
-		String character=null;
-		ArrayList<Node> children=new ArrayList<ShortestPalindrome.Node>();
 		
-		
-		public Node(String character) {
-			super();
-			this.character = character;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result
-					+ ((character == null) ? 0 : character.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Node other = (Node) obj;
-			if (character == null) {
-				if (other.character != null)
-					return false;
-			} else if (!character.equals(other.character))
-				return false;
-			return true;
-		}
-
-	}
-	
-	public Node buildSuffixTree(String s){
-		Node root=new Node("");
-		char[] a=s.toCharArray();
-		
-		for(int i=(a.length-1);i>=0;i--){
-			Node current=root;
-			
-			for(int j=i;j<a.length;j++){
-				Node n=new Node(""+a[j]);
-				int index=current.children.indexOf(n);
-				if(!(index>=0)){
-					current.children.add(n);
-					current=n;
-				}else{
-					current=current.children.get(index);
-				}
-			}
-		}
-		
-		return root;
-	}
-	
 	public TNode buildEdgesSuffixTree(String s){
 		TNode root=new TNode();
 		char[] a=s.toCharArray();
@@ -91,6 +29,8 @@ public class ShortestPalindrome {
 				String c=""+a[j];			
 				if(!current.edges.containsKey(c)){
 					TNode n=new TNode();
+					if(j==(a.length-1))
+						n.eof=true;
 					current.edges.put(c, n);
 					current=n;
 				}else{
@@ -100,27 +40,39 @@ public class ShortestPalindrome {
 		}
 		
 		return root;
-	}
-	
-	public int maxMatch(Node n, String s){
-		int count=0;
-		
-		
-		return count;
-		
-		
-	}
-	
+	}	
 	
 	public String shortestPalindrome(String s) {		
 		if(s==null || s.length()==0)
 			return s;
-		
+		//reverse the string and build suffix tree
 		TNode root=buildEdgesSuffixTree(new StringBuffer(s).reverse().toString());
 		
 		//navigate original tree in suffix 
+		int i=0;
+		int charsMatched=0;
+		TNode current=root;
+		while(true){
+			if(current.eof)
+				charsMatched=i;
+			
+			if(i>=s.length() || current==null)
+				break;
+			
+			String c=""+s.charAt(i);		
+			if(current.edges.containsKey(c)){
+				i++;
+				current=current.edges.get(c);
+			}
+			else
+				break;
+		}
 		
-		return null;
+		String remaining=s.substring(charsMatched);
+		StringBuffer sb=new StringBuffer(remaining);
+		String palindrome=sb.reverse().toString()+s;
+		System.out.println(palindrome);
+		return palindrome;
 	}
 
 
@@ -131,6 +83,10 @@ public class ShortestPalindrome {
 		
 		assertTrue("dcbabcd".equals(test.shortestPalindrome("abcd")));
 		assertTrue("aaacecaaa".equals(test.shortestPalindrome("aacecaaa")));
+		assertTrue("aba".equals(test.shortestPalindrome("aba")));
+		assertTrue("a".equals(test.shortestPalindrome("a")));
+		assertTrue("".equals(test.shortestPalindrome("")));
+		assertTrue("ababbabbbababbbabbaba".equals(test.shortestPalindrome("ababbbabbaba")));
 
 		System.out.println("All test cases passed");
 	}
