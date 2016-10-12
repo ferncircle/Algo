@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.chawkalla.algorithms.examples;
+package com.chawkalla.algorithms.examples.graph;
 
 import static org.junit.Assert.assertTrue;
 
