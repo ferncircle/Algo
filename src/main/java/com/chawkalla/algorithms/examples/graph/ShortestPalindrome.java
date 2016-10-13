@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 
 /**
- * @author sfargose
+ * 
  * https://leetcode.com/problems/shortest-palindrome/
  */
 public class ShortestPalindrome {

@@ -7,27 +7,7 @@ import java.util.regex.Pattern;
 public class Test4 {
 
 	public static void main(String[] args){
-		//stringReverse();
-		//System.out.println("1".hashCode());
 		
-		/*HashMap<Person, Integer> map=new HashMap<Person, Integer>();
-		
-		map.put(new Person("stany", "sfargose"), new Integer(1));
-		
-		System.out.println(map.get(new Person("awef", "awf")));
-		
-		
-		map.put(new Person("steffi", "steffigmail"), new Integer(2));
-		
-		System.out.println(map.get(new Person("awf", "steffigmail")));
-		//testFinally();
-		
-		StringBuffer sb=new StringBuffer();
-		testBuffer(sb);
-		System.out.println(sb.toString());
-		*/
-		
-		//regexMatch();
 		testFinally();
 	}
 	

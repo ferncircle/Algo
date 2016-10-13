@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author sfargose
+ * 
  * https://leetcode.com/problems/path-sum-ii/
  */
 public class PathSum {
