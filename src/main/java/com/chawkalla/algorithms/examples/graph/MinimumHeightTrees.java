@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.chawkalla.algorithms.Graph;
+
 
 /**
  * https://leetcode.com/problems/minimum-height-trees/
@@ -15,7 +17,6 @@ import java.util.List;
 public class MinimumHeightTrees {
 
 	private HashMap<Integer, List<Integer>> graph;
-	private HashSet<Integer> nthNodes=new HashSet<Integer>();
 	private BitSet visited;
 	
 	public List<Integer> findMinHeightTrees(int n, int[][] edges) {
@@ -42,10 +43,11 @@ public class MinimumHeightTrees {
 		int maxHeight=getMaxHeight(leaf);
 		
 		//get furthest node from random leaf node
-		//HashSet<Integer> furthestNodes=new HashSet<Integer>();
+		HashSet<Integer> nthNodes=new HashSet<Integer>();
+		
 		nthNodes.clear();
-		visited.clear();
-		getNthNodes(leaf,  maxHeight);
+		Graph.getNthNodes(leaf, maxHeight, graph, new BitSet(n), nthNodes);
+		//getNthNodes(leaf,  maxHeight);
 		
 		leaf=nthNodes.iterator().next();
 		
@@ -55,8 +57,8 @@ public class MinimumHeightTrees {
 		
 		//get the furthest node path
 		visited.clear();
-		List<LinkedList<Integer>> paths=getNthNodesPath(leaf, 
-				maxHeight);
+		//List<LinkedList<Integer>> paths=getNthNodesPath(leaf, maxHeight);
+		List<LinkedList<Integer>> paths=Graph.getNthNodesPath(leaf, maxHeight, graph, new BitSet(n));
 		
 		//now get middle or two middle elements from the path		
 		HashSet<Integer> solution=new HashSet<Integer>();
@@ -71,110 +73,8 @@ public class MinimumHeightTrees {
 		return middles;
 	}
 
-	private void getNthNodes(int node, 
-			int level){
-		if(level==0){
-			nthNodes.add(node);
-			return;
-		}
-
-		List<Integer> neighbors=graph.get(node);
-		
-		/*if(visited.get(node))
-			return;*/
-		if(neighbors==null || neighbors.size()==0)
-			return;
-		visited.set(node);
-		
-		if(neighbors.size()==2){
-			while(neighbors.size()==2)
-			{
-				for(int neighbor:neighbors){
-					if(!visited.get(neighbor)){
-						visited.set(neighbor);
-						level=level-1;
-						neighbors=graph.get(neighbor);
-						node=neighbor;
-					}
-				}
-			}
-			getNthNodes(node, level);
-		}else{
-			for(int neighbor:neighbors){
-				if(!visited.get(neighbor))
-					getNthNodes(neighbor, level-1);
-				
-			}
-		}
-		
-		
-		
-	}
 	
-	private List<LinkedList<Integer>> getNthNodesPath(int node, 
-			int level){
-		if(level==0){
-			List<LinkedList<Integer>> lists=new ArrayList<LinkedList<Integer>>();
-			LinkedList<Integer> ll=new LinkedList<Integer>();
-			ll.add(node);
-			lists.add(ll);
-			return lists;
-		}
-
-		List<Integer> neighbors=graph.get(node);
-		/*if(visited.get(node))
-			return null;*/
-		if(neighbors==null || neighbors.size()==0)
-			return null;
-		visited.set(node);
-		
-		List<LinkedList<Integer>> result=new ArrayList<LinkedList<Integer>>();
-		if(neighbors.size()==2){
-			LinkedList<Integer> li=new LinkedList<Integer>();
-			while(neighbors.size()==2)
-			{
-				for(int neighbor:neighbors){
-					if(!visited.get(neighbor)){
-						visited.set(neighbor);
-						li.add(node);
-						level=level-1;
-						neighbors=graph.get(neighbor);
-						node=neighbor;
-					}
-				}
-			}
-			List<LinkedList<Integer>> lists=getNthNodesPath(node, level);
-			if(lists!=null && lists.size()>0){
-				for(LinkedList<Integer> ll:lists){
-					if(ll!=null){
-						ll.addAll(0, li);
-						result.add(ll);
-					}
-						
-				}
-			}
-		}else{
-			for(int neighbor:neighbors){
-				if(!visited.get(neighbor)){
-					List<LinkedList<Integer>> lists=getNthNodesPath(neighbor, level-1);
-					if(lists!=null && lists.size()>0){
-						for(LinkedList<Integer> ll:lists){
-							if(ll!=null){
-								ll.addFirst(node);
-								result.add(ll);
-							}
-								
-						}
-					}
-				}
-					
-				
-			}
-		}
-		
-		
-		return result;
-	}
+	
 
 	private int getMaxHeight(int node){
 		int h=0;

@@ -1,5 +1,6 @@
 package com.chawkalla.algorithms.examples;
 
+import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
 
@@ -10,26 +11,9 @@ public class LongestValidParentheses {
 		if(s==null || s.length()==0)
 			return 0;
 		
-		TreeMap<Integer, Integer> matchingBracket=new TreeMap<Integer, Integer>();
-		Stack<Integer> st=new Stack<Integer>();
-		
-		int longestSoFar=0;
-		for (int i = 0; i < s.length(); i++) {			
-			switch (s.charAt(i)) {
-			case '(':
-				st.push(i);
-				break;
-			case ')':
-				if(!st.empty()){
-					matchingBracket.put(st.pop(), i);
-				}
-				break;
 
-			default:
-				break;
-			}	
-			
-		}
+		int longestSoFar=0;
+		Map<Integer, Integer> matchingBracket=getMatchingBrackets(s, '(', ')');
 		int lastMatchEnd=-1;		
 		
 		for(int i:matchingBracket.keySet()){
@@ -47,6 +31,24 @@ public class LongestValidParentheses {
 		
 		return l;
 		
+	}
+	
+	public static Map<Integer, Integer> getMatchingBrackets(String s, final char openChar, final char closeChar){
+		TreeMap<Integer, Integer> matchingBracket=new TreeMap<Integer, Integer>();
+		Stack<Integer> st=new Stack<Integer>();
+		
+		for (int i = 0; i < s.length(); i++) {	
+			char currentchar=s.charAt(i);
+			if(currentchar==openChar){
+				st.push(i);
+			}else if(currentchar==closeChar){
+				if(!st.empty()){
+					matchingBracket.put(st.pop(), i);
+				}
+			}
+			
+		}
+		return matchingBracket;
 	}
 	public static void main(String[] args) {
 		LongestValidParentheses test=new LongestValidParentheses();
