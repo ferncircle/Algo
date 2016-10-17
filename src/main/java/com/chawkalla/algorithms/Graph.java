@@ -1,11 +1,11 @@
 package com.chawkalla.algorithms;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Graph {
 
@@ -72,18 +72,18 @@ public class Graph {
 
 	}
 	
-	public static int getMaxHeight(int node, final HashMap<Integer, List<Integer>> graph, BitSet visited){
+	public static int getMaxHeight(int node, final HashMap<Integer, List<Integer>> graph, HashSet<Integer> visited){
 		int h=0;
 
 		List<Integer> neighbors=graph.get(node);
-		if(visited.get(node))
+		if(visited.contains(node))
 			return 0;
 		if(neighbors==null || neighbors.size()==0)
 			return 0;
-		visited.set(node);
+		visited.add(node);
 
 		for(int neighbor:neighbors){
-			if(!visited.get(neighbor)){
+			if(!visited.contains(neighbor)){
 				int val=1+getMaxHeight(neighbor, graph, visited);
 				if(val>h)
 					h=val;
@@ -93,8 +93,66 @@ public class Graph {
 		return h;
 	}
 	
+	public static int getMaxHeightIterative(int node, final HashMap<Integer, List<Integer>> graph){
+		int h=-1;
+
+		int dummy=Integer.MAX_VALUE;
+		Queue<Integer> queue=new LinkedList<Integer>();
+		HashSet<Integer> visited=new HashSet<Integer>();
+		queue.add(node);
+		queue.add(dummy);
+		while(!queue.isEmpty()){
+			int current=queue.remove();			
+			
+			if(current==dummy && !queue.isEmpty()){//this is IMPORTANT! only add dummy node when current is dummy node and queue is not empty(terminal case)		
+				h++;
+				queue.add(dummy);
+			}else{				
+				if(visited.contains(current))
+					continue;
+				visited.add(current);
+				List<Integer> neighbors=graph.get(current);
+				if(neighbors!=null)
+					queue.addAll(neighbors);
+			}
+		}	
+
+		return h;
+	}
+	
+	public static HashSet<Integer>  getNthNodesIterative(int node,int level, final HashMap<Integer, List<Integer>> graph){
+		HashSet<Integer> nodes=new HashSet<Integer>();
+
+		int h=-1;
+
+		int dummy=Integer.MAX_VALUE;
+		Queue<Integer> queue=new LinkedList<Integer>();
+		HashSet<Integer> visited=new HashSet<Integer>();
+		queue.add(node);
+		queue.add(dummy);
+		while(!queue.isEmpty()){
+			int current=queue.remove();			
+			
+			if(current==dummy && !queue.isEmpty()){		//this is IMPORTANT! only add dummy node when current is dummy node and queue is not empty(terminal case)		
+				h++;
+				queue.add(dummy);
+			}else{
+				if(visited.contains(current))
+					continue;
+				visited.add(current);
+				if(h==level-1)  //get nodes at given level
+					nodes.add(current);
+				List<Integer> neighbors=graph.get(current);
+				if(neighbors!=null)
+					queue.addAll(neighbors);
+			}
+		}	
+
+		return nodes;
+	}
+	
 	public static void getNthNodes(int node, int level,
-			final HashMap<Integer, List<Integer>> graph, BitSet visited, HashSet<Integer> nthNodes){
+			final HashMap<Integer, List<Integer>> graph, HashSet<Integer> visited, HashSet<Integer> nthNodes){
 		if(level==0){
 			nthNodes.add(node);
 			return;
@@ -103,14 +161,14 @@ public class Graph {
 		
 		if(neighbors==null || neighbors.size()==0)
 			return;
-		visited.set(node);
+		visited.add(node);
 		
 		if(neighbors.size()==2){
 			while(neighbors.size()==2)
 			{
 				for(int neighbor:neighbors){
-					if(!visited.get(neighbor)){
-						visited.set(neighbor);
+					if(!visited.contains(neighbor)){
+						visited.add(neighbor);
 						level=level-1;
 						neighbors=graph.get(neighbor);
 						node=neighbor;
@@ -120,7 +178,7 @@ public class Graph {
 			getNthNodes(node, level, graph, visited, nthNodes);
 		}else{
 			for(int neighbor:neighbors){
-				if(!visited.get(neighbor))
+				if(!visited.contains(neighbor))
 					getNthNodes(neighbor, level-1, graph, visited, nthNodes);
 				
 			}
@@ -129,7 +187,7 @@ public class Graph {
 	}
 	
 	public static List<LinkedList<Integer>> getNthNodesPath(int node,	int level,
-			final HashMap<Integer, List<Integer>> graph, BitSet visited){
+			final HashMap<Integer, List<Integer>> graph, HashSet<Integer> visited){
 			
 		if(level==0){
 			List<LinkedList<Integer>> lists=new ArrayList<LinkedList<Integer>>();
@@ -144,7 +202,7 @@ public class Graph {
 			return null;*/
 		if(neighbors==null || neighbors.size()==0)
 			return null;
-		visited.set(node);
+		visited.add(node);
 		
 		List<LinkedList<Integer>> result=new ArrayList<LinkedList<Integer>>();
 		if(neighbors.size()==2){
@@ -152,8 +210,8 @@ public class Graph {
 			while(neighbors.size()==2)
 			{
 				for(int neighbor:neighbors){
-					if(!visited.get(neighbor)){
-						visited.set(neighbor);
+					if(!visited.contains(neighbor)){
+						visited.add(neighbor);
 						li.add(node);
 						level=level-1;
 						neighbors=graph.get(neighbor);
@@ -173,8 +231,71 @@ public class Graph {
 			}
 		}else{
 			for(int neighbor:neighbors){
-				if(!visited.get(neighbor)){
+				if(!visited.contains(neighbor)){
 					List<LinkedList<Integer>> lists=getNthNodesPath(neighbor, level-1, graph, visited);
+					if(lists!=null && lists.size()>0){
+						for(LinkedList<Integer> ll:lists){
+							if(ll!=null){
+								ll.addFirst(node);
+								result.add(ll);
+							}
+								
+						}
+					}
+				}
+					
+				
+			}
+		}
+		
+		
+		return result;
+	}
+	
+	public static List<LinkedList<Integer>> getNthNodesPath(int node, HashMap<Integer, List<Integer>> graph,
+			int level, HashSet<Integer> visited){
+		if(level==0){
+			List<LinkedList<Integer>> lists=new ArrayList<LinkedList<Integer>>();
+			LinkedList<Integer> ll=new LinkedList<Integer>();
+			ll.add(node);
+			lists.add(ll);
+			return lists;
+		}
+
+		List<Integer> neighbors=graph.get(node);
+		if(neighbors==null || neighbors.size()==0)
+			return null;
+		visited.add(node);
+		
+		List<LinkedList<Integer>> result=new ArrayList<LinkedList<Integer>>();
+		if(neighbors.size()==2){
+			LinkedList<Integer> li=new LinkedList<Integer>();
+			while(neighbors.size()==2)
+			{
+				for(int neighbor:neighbors){
+					if(!visited.contains(neighbor)){
+						visited.add(neighbor);
+						li.add(node);
+						level=level-1;
+						neighbors=graph.get(neighbor);
+						node=neighbor;
+					}
+				}
+			}
+			List<LinkedList<Integer>> lists=getNthNodesPath(node, graph, level, visited);
+			if(lists!=null && lists.size()>0){
+				for(LinkedList<Integer> ll:lists){
+					if(ll!=null){
+						ll.addAll(0, li);
+						result.add(ll);
+					}
+						
+				}
+			}
+		}else{
+			for(int neighbor:neighbors){
+				if(!visited.contains(neighbor)){
+					List<LinkedList<Integer>> lists=getNthNodesPath(neighbor, graph, level-1, visited);
 					if(lists!=null && lists.size()>0){
 						for(LinkedList<Integer> ll:lists){
 							if(ll!=null){

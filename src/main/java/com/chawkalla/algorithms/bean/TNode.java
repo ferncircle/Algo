@@ -1,9 +1,9 @@
 package com.chawkalla.algorithms.bean;
 
-public class TNode {
-	public int value;
-	public TNode left;
-	public TNode right;
+public class TNode<T> {
+	public T value;
+	public TNode<T> left;
+	public TNode<T> right;
 	
 	
 	public TNode() {
@@ -11,13 +11,13 @@ public class TNode {
 	}
 	
 	
-	public TNode(int value) {
+	public TNode(T value) {
 		super();
 		this.value = value;
 	}
 
 
-	public TNode(int value, TNode left, TNode right) {
+	public TNode(T value, TNode<T> left, TNode<T> right) {
 		super();
 		this.value = value;
 		this.left = left;
@@ -25,22 +25,22 @@ public class TNode {
 	}
 
 
-	public int getValue() {
+	public T getValue() {
 		return value;
 	}
-	public void setValue(int value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
-	public TNode getLeft() {
+	public TNode<T> getLeft() {
 		return left;
 	}
-	public void setLeft(TNode left) {
+	public void setLeft(TNode<T> left) {
 		this.left = left;
 	}
-	public TNode getRight() {
+	public TNode<T> getRight() {
 		return right;
 	}
-	public void setRight(TNode right) {
+	public void setRight(TNode<T> right) {
 		this.right = right;
 	}
 	

@@ -3,6 +3,8 @@
  */
 package com.chawkalla.algorithms.examples.graph;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
@@ -81,7 +83,7 @@ public class ShortestPalindrome {
 		
 		ShortestPalindrome test =new ShortestPalindrome();
 		
-		assertTrue("dcbabcd".equals(test.shortestPalindrome("abcd")));
+		assertThat(test.shortestPalindrome("abcd"), is("dcbabcd"));
 		assertTrue("aaacecaaa".equals(test.shortestPalindrome("aacecaaa")));
 		assertTrue("aba".equals(test.shortestPalindrome("aba")));
 		assertTrue("a".equals(test.shortestPalindrome("a")));

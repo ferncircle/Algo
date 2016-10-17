@@ -6,18 +6,18 @@ import java.util.Stack;
 
 import com.chawkalla.algorithms.bean.TNode;
 
-public class BST {
+public class BST<T> {
 	
 	public static int index=0;
 
-	public TNode createSampleTree(){
-		TNode root=new TNode(10);
-		TNode node5=new TNode(5);
-		TNode node2=new TNode(2);
-		TNode node7=new TNode(7);
-		TNode node15=new TNode(15);
-		TNode node12=new TNode(12);
-		TNode node18=new TNode(18);
+	public TNode<Integer> createSampleTree(){
+		TNode<Integer> root=new TNode<Integer>(10);
+		TNode<Integer> node5=new TNode<Integer>(5);
+		TNode<Integer> node2=new TNode<Integer>(2);
+		TNode<Integer> node7=new TNode<Integer>(7);
+		TNode<Integer> node15=new TNode<Integer>(15);
+		TNode<Integer> node12=new TNode<Integer>(12);
+		TNode<Integer> node18=new TNode<Integer>(18);
 		/*
 		 * 					10		
 		 * 			5				15
@@ -36,7 +36,7 @@ public class BST {
 		return root;
 	}
 	
-	public static void printInOrder(TNode node){
+	public static <T> void printInOrder(TNode<T> node){
 		if(node==null)
 			return;
 		printInOrder(node.getLeft());
@@ -44,12 +44,12 @@ public class BST {
 		printInOrder(node.getRight());
 	}
 	
-	public static void printInOrderUsingStack(TNode node){
+	public static <T> void printInOrderUsingStack(TNode<T> node){
 		if(node==null)
 			return;
 		boolean done=false;
-		Stack<TNode> stack=new Stack<TNode>();
-		TNode cursor=node;
+		Stack<TNode<T>> stack=new Stack<TNode<T>>();
+		TNode<T> cursor=node;
 		while(!done){	
 			if(cursor!=null){
 				stack.push(cursor);			
@@ -66,7 +66,7 @@ public class BST {
 		}
 	}
 	
-	public static void printPreOrder(TNode node){
+	public static<T> void printPreOrder(TNode<T> node){
 		if(node==null)
 			return;
 		System.out.print(node.getValue()+" ");
@@ -75,7 +75,7 @@ public class BST {
 		printPreOrder(node.getRight());
 	}
 	
-	public void printPostOrder(TNode node){
+	public void printPostOrder(TNode<T> node){
 		if(node==null)
 			return;
 		printPostOrder(node.getLeft());		
@@ -83,7 +83,7 @@ public class BST {
 		System.out.print(node.getValue()+" ");
 	}
 	
-	public void printReversePostOrder(TNode node){
+	public void printReversePostOrder(TNode<T> node){
 		if(node==null)
 			return;
 		printPostOrder(node.getRight());
@@ -92,12 +92,12 @@ public class BST {
 	}
 	
 
-	public void BFS(TNode node){
-		Queue<TNode> queue=new LinkedList<TNode>();
+	public void BFS(TNode<T> node){
+		Queue<TNode<T>> queue=new LinkedList<TNode<T>>();
 		if(node!=null)
 			queue.add(node);
 		while(!queue.isEmpty()){
-			TNode item=queue.remove();
+			TNode<T> item=queue.remove();
 			System.out.print(item.getValue()+" ");
 			if(item.getLeft()!=null)
 				queue.add(item.getLeft());
@@ -106,12 +106,12 @@ public class BST {
 		}
 	}
 	
-	public void DFS(TNode node){
-		Stack<TNode> stack=new Stack<TNode>();
+	public void DFS(TNode<T> node){
+		Stack<TNode<T>> stack=new Stack<TNode<T>>();
 		if(node!=null)
 			stack.push(node);
 		while(!stack.isEmpty()){
-			TNode item=stack.pop();
+			TNode<T> item=stack.pop();
 			System.out.print(item.getValue()+" ");
 			if(item.getRight()!=null)
 				stack.push(item.getRight());
@@ -123,7 +123,7 @@ public class BST {
 		}
 	}
 	
-	public static void findKthNode(TNode node, final int k){
+	public static <T> void findKthNode(TNode<T> node, final int k){
 		if(node==null)
 			return;
 		findKthNode(node.getLeft(),  k);
@@ -134,21 +134,21 @@ public class BST {
 	}
 	
 	
-	public static void main(String[] args) {
-		BST tree=new BST();
+	public static <T> void main(String[] args) {
+		BST<Integer> tree=new BST<Integer>();
 
-		TNode root=tree.createSampleTree();
+		TNode<Integer> root=tree.createSampleTree();
 		
 		System.out.print("In Order:");
-		tree.printInOrder(root);
+		BST.printInOrder(root);
 		System.out.println();
 		
 		System.out.print("In Order Using stack:");
-		tree.printInOrderUsingStack(root);
+		BST.printInOrderUsingStack(root);
 		System.out.println();
 		
 		System.out.print("Pre Order:");
-		tree.printPreOrder(root);
+		BST.printPreOrder(root);
 		System.out.println();
 		
 		System.out.print("Post Order:");

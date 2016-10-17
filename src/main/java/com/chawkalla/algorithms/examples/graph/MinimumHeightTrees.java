@@ -46,7 +46,7 @@ public class MinimumHeightTrees {
 		HashSet<Integer> nthNodes=new HashSet<Integer>();
 		
 		nthNodes.clear();
-		Graph.getNthNodes(leaf, maxHeight, graph, new BitSet(n), nthNodes);
+		Graph.getNthNodes(leaf, maxHeight, graph, new HashSet<Integer>(), nthNodes);
 		//getNthNodes(leaf,  maxHeight);
 		
 		leaf=nthNodes.iterator().next();
@@ -58,7 +58,7 @@ public class MinimumHeightTrees {
 		//get the furthest node path
 		visited.clear();
 		//List<LinkedList<Integer>> paths=getNthNodesPath(leaf, maxHeight);
-		List<LinkedList<Integer>> paths=Graph.getNthNodesPath(leaf, maxHeight, graph, new BitSet(n));
+		List<LinkedList<Integer>> paths=Graph.getNthNodesPath(leaf, maxHeight, graph, new HashSet<Integer>());
 		
 		//now get middle or two middle elements from the path		
 		HashSet<Integer> solution=new HashSet<Integer>();
@@ -130,7 +130,7 @@ public class MinimumHeightTrees {
 		System.out.println(new MinimumHeightTrees().findMinHeightTrees(4, new int[][]{{1, 0}, {1, 2}, {1, 3}}));
 		System.out.println(new MinimumHeightTrees().findMinHeightTrees(6, new int[][]{{0, 3}, {1, 3}, {2, 3}, {4, 3}, {5, 4}}));
 		
-		int n=3000;
+		int n=4000;
 		int[][] a=new int[n][2];
 		for(int i=0;i<n;i++){
 			a[i]=new int[]{i,i+1};

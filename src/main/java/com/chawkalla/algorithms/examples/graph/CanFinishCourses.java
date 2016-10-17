@@ -9,42 +9,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
+public class CanFinishCourses {
 
-
-/**
- *
- * https://leetcode.com/problems/course-schedule-ii/
- * Topological sort
- */
-public class CourseSchedule {
-	
-	
-	
-	public int[] findOrder(int numCourses, int[][] prerequisites) {
-		if(numCourses<=0)
-			return null;
-		int[] ret=new int[numCourses];
+	public boolean canFinish(int numCourses, int[][] prerequisites) {
+		boolean finish=true;
+		if(numCourses<2)
+			return true;
 		
-		//first crete dependency graph (adjacency list)
 		HashMap<Integer, List<Integer>> deps=createAdjList(prerequisites);	
-		
+
 		Stack<Integer> st=new Stack<Integer>();	
 		HashSet<Integer> visiting=new HashSet<Integer>();
 		HashSet<Integer> visited=new HashSet<Integer>();
-		
+
 		try {
 			for(int i=0;i<numCourses;i++){
 				visit(i, deps, visited, visiting, st);
 			}
 		} catch (Exception e) {
-			return new int[0];
+			return false;
 		}
 		
-		int i=0;
-		while(!st.empty())
-			ret[i++]=st.pop();
-		
-		return ret;
+		return finish;
 	}
 	
 	public static HashMap<Integer, List<Integer>> createAdjList(int[][] prerequisites){
@@ -86,13 +72,12 @@ public class CourseSchedule {
 		visiting.remove(node);
 	}
 
+
 	public static void main(String[] args) {
-		
-		assertThat(new CourseSchedule().findOrder(4, new int[][]{{1,0},{2,0},{3,1},{3,2}}), is(new int[]{0, 2, 1, 3}));
-		assertThat(new CourseSchedule().findOrder(1, new int[][]{}), is(new int[]{0}));
-		assertThat(new CourseSchedule().findOrder(2, new int[][]{{1,0},{0,1}}), is(new int[]{}));
-		assertThat(new CourseSchedule().findOrder(4, new int[][]{{3,0},{0,1}}), is(new int[]{2,1,0,3}));
-		
+
+		assertThat(new CanFinishCourses().canFinish(2, new int[][]{{1,0}}), is(true));
+		assertThat(new CanFinishCourses().canFinish(2, new int[][]{{1,0}, {0,1}}), is(false));
+
 		System.out.println("All test cases passed");
 	}
 

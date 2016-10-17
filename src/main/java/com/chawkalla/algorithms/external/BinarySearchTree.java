@@ -50,7 +50,6 @@ class BinarySearchTree {
          System.out.println("false");
      }
      int[] pre2 = new int[]{40, 30, 35, 20, 80, 100};
-     int n1 = pre2.length;
      if (bst.canRepresentBST(pre2, n) == true) {
          System.out.println("true");
      } else {

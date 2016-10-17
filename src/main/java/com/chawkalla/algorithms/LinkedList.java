@@ -3,40 +3,21 @@ package com.chawkalla.algorithms;
 import com.chawkalla.algorithms.bean.LNode;
 import com.chawkalla.algorithms.bean.TNode;
 
-public class LinkedList {
+public class LinkedList<K, T> {
 
-	public LNode head;
-
-
-	public static void main(String[] args) {
-		LinkedList list=new LinkedList();
-		list.push(29);
-		list.push(26);
-		list.push(20);
-		list.push(18);
-		list.push(10);
-		list.push(5);
-		list.push(3);
-
-		list.print();
-
-		list.convertToBST();
-
-		list.reverse();
-		list.print();
-	}
-
-
+	public LNode<K,T> head;
+	public LNode<K,T> last;
+	public int size;
 
 	public void convertToBST(){
-		LNode temp=head;
-		TNode root=sortedListToBSTRecur(countNodes(head));
+		LNode<K,T> temp=head;
+		TNode<T> root=sortedListToBSTRecur(countNodes(head));
 		BST.printInOrder(root);
 		head=temp;
 	}
 
 	//idea is to do inorder traversal of the tree
-	TNode sortedListToBSTRecur(int n) 
+	TNode<T> sortedListToBSTRecur(int n) 
 	{
 
 		/* Base Case */
@@ -44,11 +25,11 @@ public class LinkedList {
 			return null;
 
 		/* Recursively construct the left subtree */
-		TNode left = sortedListToBSTRecur(n / 2);
+		TNode<T> left = sortedListToBSTRecur(n / 2);
 
 		/* head_ref now refers to middle node, 
            make middle node as root of BST*/
-		TNode root = new TNode(head.data);
+		TNode<T> root = new TNode<T>(head.data);
 
 		// Set pointer to left subtree
 		root.left = left;
@@ -71,12 +52,12 @@ public class LinkedList {
 		
 		if(head==null)
 			return;
-		LNode current=head;
-		LNode prev=null;
-		LNode next=current.next;
+		LNode<K,T> current=head;
+		LNode<K,T> prev=null;
+		LNode<K,T> next=current.next;
 
 		while(next!=null){			
-			LNode nextToNext=next.next;  //save nexttonext
+			LNode<K,T> nextToNext=next.next;  //save nexttonext
 			current.next=prev;//change pointers
 			next.next=current;
 
@@ -88,27 +69,87 @@ public class LinkedList {
 		head=current;
 	}
 
-	public void push (int data){
-		LNode node=new LNode(data);
-		node.setNext(head);
+	public void push (T data){
+		LNode<K,T> node=new LNode<K,T>(data);
+		node.next=head;
 		head=node;
+		size++;
+	}
+	
+	public void add (LNode<K,T> node){
+		if(size==0){
+			head=last=node;
+		}else{
+			node.prev=last;
+			node.next=null;
+			last.next=node;
+			last=node;
+		}
+		size++;
 	}
 
+	public LNode<K,T> removeFirst(){
+		LNode<K,T> toBeRemoved=null;
+		if(size>0){
+			toBeRemoved=head;
+			if(size==1){
+				head=last=null;
+			}			
+			else{			
+				head=head.next;
+				head.prev=null;
+			}			
+			size--;
+			toBeRemoved.next=toBeRemoved.prev=null;
+		}
+		
+
+		return toBeRemoved;
+	}
+
+	public void removeAndMoveToLast(LNode<K,T> node){
+		if(node==null || size<=1 || last==node)
+			return;
+		//remove from current position
+		LNode<K,T> before=node.prev;
+		LNode<K,T> next=node.next;
+		
+		if(before==null){
+			head=next;
+			head.prev=null;
+		}			
+		else{
+			before.next=next;
+			next.prev=before;
+		}
+		//append at end
+		last.next=node;
+		node.prev=last;
+		node.next=null;
+		last=node;
+	}
+
+
+
 	public void print(){
-		LNode cursor=head;
+		LNode<K,T> cursor=head;
 		System.out.println();
 
 		while(cursor!=null){
-			System.out.print(cursor.getData()+" ");
+			System.out.print(cursor.data+" ");
 			cursor=cursor.next;
 		}
 		System.out.println();
 	}
+	
+	public int size(){
+		return size;
+	}
 
-	int countNodes(LNode head) 
+	int countNodes(LNode<K,T> head) 
 	{
 		int count = 0;
-		LNode temp = head;
+		LNode<K,T> temp = head;
 		while (temp != null)
 		{
 			temp = temp.next;
@@ -116,5 +157,26 @@ public class LinkedList {
 		}
 		return count;
 	}
+	
+
+	public static void main(String[] args) {
+		LinkedList<Integer, Integer> list=new LinkedList<Integer, Integer>();
+		list.push(29);
+		list.push(26);
+		list.push(20);
+		list.push(18);
+		list.push(10);
+		list.push(5);
+		list.push(3);
+
+		list.print();
+
+		list.convertToBST();
+
+		list.reverse();
+		list.print();
+	}
+
+
 
 }
