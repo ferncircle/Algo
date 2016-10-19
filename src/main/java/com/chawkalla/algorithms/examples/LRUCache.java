@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.chawkalla.algorithms.LinkedList;
 import com.chawkalla.algorithms.bean.Entry;
+import com.chawkalla.algorithms.ds.LinkedList;
 
 public class LRUCache {
 

@@ -1,5 +1,6 @@
-package com.chawkalla.algorithms;
+package com.chawkalla.algorithms.ds;
 
+import com.chawkalla.algorithms.BST;
 import com.chawkalla.algorithms.bean.Entry;
 import com.chawkalla.algorithms.bean.TNode;
 

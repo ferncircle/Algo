@@ -2,15 +2,15 @@ package com.chawkalla.algorithms.examples;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.chawkalla.algorithms.LinkedList;
 import com.chawkalla.algorithms.bean.Entry;
+import com.chawkalla.algorithms.ds.LinkedList;
+
 
 public class AllOne {
 
@@ -70,7 +70,6 @@ public class AllOne {
 				else if(newValue>oldValue) //or after 
 					minMaxList.insertAfter(oldNode, newNode);
 			}else{ //first node
-				assertTrue(newValue==1 && oldValue==0);
 				minMaxList.push(newNode);
 			}
 
@@ -116,7 +115,7 @@ public class AllOne {
 
 	/** Returns one of the keys with maximal value. */
 	public String getMaxKey() {
-		String maxKey=null;
+		String maxKey="";
 		
 		Entry<Integer, HashSet<String>> lastNode=minMaxList.last;
 		if(lastNode!=null && lastNode.data!=null){
@@ -129,7 +128,7 @@ public class AllOne {
 
 	/** Returns one of the keys with Minimal value. */
 	public String getMinKey() {
-		String minKey=null;
+		String minKey="";
 		
 		Entry<Integer, HashSet<String>> firstNode=minMaxList.head;
 		if(firstNode!=null && firstNode.data!=null){
@@ -137,6 +136,7 @@ public class AllOne {
 		}
 		return minKey;
 	}
+	
 
 	public static void main(String[] args) {
 		AllOne test=new AllOne();		
@@ -154,7 +154,7 @@ public class AllOne {
 		test=new AllOne();		
 		result=new ArrayList<String>();		
 		result.add(test.getMaxKey());	result.add(test.getMinKey());		
-		assertThat(result, is(Arrays.asList(null,null)));	
+		assertThat(result, is(Arrays.asList("","")));	
 		
 		test=new AllOne();		
 		result=new ArrayList<String>();		
@@ -164,7 +164,7 @@ public class AllOne {
 		test=new AllOne();		
 		result=new ArrayList<String>();		
 		test.dec("3");result.add(test.getMaxKey());	result.add(test.getMinKey());		
-		assertThat(result, is(Arrays.asList(null,null)));	
+		assertThat(result, is(Arrays.asList("","")));	
 
 		test=new AllOne();		
 		result=new ArrayList<String>();		
@@ -204,7 +204,7 @@ public class AllOne {
 		test.dec("a");
 		test.dec("a");	
 		result.add(test.getMaxKey());	result.add(test.getMinKey());
-		assertThat(result, is(Arrays.asList("a","a",null,null)));	
+		assertThat(result, is(Arrays.asList("a","a","","")));	
 		
 		test=new AllOne();		
 		result=new ArrayList<String>();		
