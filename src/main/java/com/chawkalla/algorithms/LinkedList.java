@@ -1,16 +1,16 @@
 package com.chawkalla.algorithms;
 
-import com.chawkalla.algorithms.bean.LNode;
+import com.chawkalla.algorithms.bean.Entry;
 import com.chawkalla.algorithms.bean.TNode;
 
 public class LinkedList<K, T> {
 
-	public LNode<K,T> head;
-	public LNode<K,T> last;
+	public Entry<K,T> head;
+	public Entry<K,T> last;
 	public int size;
 
 	public void convertToBST(){
-		LNode<K,T> temp=head;
+		Entry<K,T> temp=head;
 		TNode<T> root=sortedListToBSTRecur(countNodes(head));
 		BST.printInOrder(root);
 		head=temp;
@@ -52,12 +52,12 @@ public class LinkedList<K, T> {
 
 		if(head==null)
 			return;
-		LNode<K,T> current=head;
-		LNode<K,T> prev=null;
-		LNode<K,T> next=current.next;
+		Entry<K,T> current=head;
+		Entry<K,T> prev=null;
+		Entry<K,T> next=current.next;
 
 		while(next!=null){			
-			LNode<K,T> nextToNext=next.next;  //save nexttonext
+			Entry<K,T> nextToNext=next.next;  //save nexttonext
 			current.next=prev;//change pointers
 			next.next=current;
 
@@ -70,13 +70,13 @@ public class LinkedList<K, T> {
 	}
 
 	public void push (T data){
-		LNode<K,T> node=new LNode<K,T>(data);
+		Entry<K,T> node=new Entry<K,T>(data);
 		node.next=head;
 		head=node;
 		size++;
 	}
 	
-	public void push (LNode<K,T> node){
+	public void push (Entry<K,T> node){
 		if(node==null)
 			return;
 		if(head==null){ //first node
@@ -91,7 +91,7 @@ public class LinkedList<K, T> {
 		size++;
 	}
 
-	public void add (LNode<K,T> node){
+	public void add (Entry<K,T> node){
 		if(size==0){
 			head=last=node;
 		}else{
@@ -103,8 +103,8 @@ public class LinkedList<K, T> {
 		size++;
 	}
 
-	public LNode<K,T> removeFirst(){
-		LNode<K,T> toBeRemoved=null;
+	public Entry<K,T> removeFirst(){
+		Entry<K,T> toBeRemoved=null;
 		if(size>0){
 			toBeRemoved=head;
 			if(size==1){
@@ -122,60 +122,59 @@ public class LinkedList<K, T> {
 		return toBeRemoved;
 	}
 
-	public void removeAndMoveToLast(LNode<K,T> node){
+	public void removeAndMoveToLast(Entry<K,T> node){
 		if(node==null || size<=1 || last==node)
 			return;
 		//remove from current position
-		remove(node);
+		remove(node);	//will reduce the size	
 		//append at end
 		last.next=node;
 		node.prev=last;
 		node.next=null;
-		last=node;
+		last=node;		
+		//add back the size
+		size++;
 	}
 
-	public void remove(LNode<K,T> currentNode){
-		if(currentNode==null)
+	public void remove(Entry<K,T> node){
+		if(node==null)
 			return;
 		//remove from current position
-		LNode<K,T> before=currentNode.prev;
-		LNode<K,T> next=currentNode.next;
+		Entry<K,T> before=node.prev;
+		Entry<K,T> next=node.next;
 		
-		currentNode.prev=null;
-		currentNode.next=null;
-		
-		if(before!=null && next!=null){ //middle node
+		node.prev=null;
+		node.next=null;		
+
+		if(head==last){ //only node
+			head=null; last=null;
+		}		
+		else if(before!=null && next!=null){ //middle node
 			before.next=next;
 			next.prev=before;
-		}		
-		
-		if(before==null && next!=null){ //first node
+		}
+		else if(node==head){ //first node
 			head=next;
 			head.prev=null;
-		}	
-		
-		if(next==null && before!=null){//last node
+		}
+		else if(node==last){//last node
 			last=before;
 			last.next=null;
-		}
-		
-		if(next==null && before==null){ //only node
-			head=null; last=null;
-		}
-		size--;
+		}		
+		size--;		
 			
 	}
 
-	public LNode<K,T> getBefore(LNode<K,T> currentNode){
+	public Entry<K,T> getBefore(Entry<K,T> currentNode){
 		if(currentNode==null)
 			return null;
 		return currentNode.prev;
 	}
 
-	public void insertBefore(LNode<K,T> currentNode, LNode<K,T> beforeNode){
+	public void insertBefore(Entry<K,T> currentNode, Entry<K,T> beforeNode){
 		if(beforeNode==null || currentNode==null)
 			return;
-		LNode<K,T> currentBefore=currentNode.prev;
+		Entry<K,T> currentBefore=currentNode.prev;
 
 		currentNode.prev=beforeNode;
 		beforeNode.next=currentNode;
@@ -187,16 +186,16 @@ public class LinkedList<K, T> {
 		size++;
 	}
 
-	public LNode<K,T> getAfter(LNode<K,T> currentNode){
+	public Entry<K,T> getAfter(Entry<K,T> currentNode){
 		if(currentNode==null)
 			return null;
 		return currentNode.next;
 	}
 
-	public void insertAfter(LNode<K,T> currentNode, LNode<K,T> afterNode){
+	public void insertAfter(Entry<K,T> currentNode, Entry<K,T> afterNode){
 		if(afterNode==null || currentNode==null)
 			return;
-		LNode<K,T> currentAfter=currentNode.next;
+		Entry<K,T> currentAfter=currentNode.next;
 
 		currentNode.next=afterNode;
 		afterNode.prev=currentNode;
@@ -212,7 +211,7 @@ public class LinkedList<K, T> {
 
 
 	public void print(){
-		LNode<K,T> cursor=head;
+		Entry<K,T> cursor=head;
 		System.out.println();
 
 		while(cursor!=null){
@@ -226,10 +225,10 @@ public class LinkedList<K, T> {
 		return size;
 	}
 
-	int countNodes(LNode<K,T> head) 
+	int countNodes(Entry<K,T> head) 
 	{
 		int count = 0;
-		LNode<K,T> temp = head;
+		Entry<K,T> temp = head;
 		while (temp != null)
 		{
 			temp = temp.next;

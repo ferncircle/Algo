@@ -1,20 +1,20 @@
 package com.chawkalla.algorithms.bean;
 
-public class LNode<K,T> {
+public class Entry<K,T> {
 
 	public K key;
 	public T data;
-	public LNode<K,T> next;
-	public LNode<K,T> prev;
+	public Entry<K,T> next;
+	public Entry<K,T> prev;
 
 	
 	
-	public LNode(T data) {
+	public Entry(T data) {
 		super();
 		this.data = data;
 	}
 	
-	public LNode(K key, T data, LNode<K,T> prev, LNode<K,T> next) {
+	public Entry(K key, T data, Entry<K,T> prev, Entry<K,T> next) {
 		super();
 		this.key=key;
 		this.data = data;
@@ -23,7 +23,7 @@ public class LNode<K,T> {
 
 	}
 
-	public LNode(T data, LNode<K,T> prev, LNode<K,T> next) {
+	public Entry(T data, Entry<K,T> prev, Entry<K,T> next) {
 		super();
 		this.data = data;
 		this.prev=prev;

@@ -10,28 +10,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import com.chawkalla.algorithms.LinkedList;
-import com.chawkalla.algorithms.bean.LNode;
+import com.chawkalla.algorithms.bean.Entry;
 
 public class AllOne {
 
 	LinkedList<Integer, HashSet<String>> minMaxList;
-
-	HashMap<Integer, LNode<Integer, HashSet<String>>> frequencyMap;
-	int max;
-	int min;
+	HashMap<Integer, Entry<Integer, HashSet<String>>> frequencyMap;
 	HashMap<String, Integer> repo;
-	HashMap<Integer, HashSet<String>> frequency;
 
 
 	/** Initialize your data structure here. */
 	public AllOne() {
-		max=Integer.MIN_VALUE;
-		min=Integer.MAX_VALUE;
-		frequency=new HashMap<Integer, HashSet<String>>();
-		
 		
 		repo=new HashMap<String, Integer>();		
-		frequencyMap=new HashMap<Integer, LNode<Integer,HashSet<String>>>();
+		frequencyMap=new HashMap<Integer, Entry<Integer,HashSet<String>>>();
 		minMaxList=new LinkedList<Integer, HashSet<String>>();
 	}
 
@@ -54,14 +46,12 @@ public class AllOne {
 		//update frequency
 		updateFrequency(key, newValue, oldValue);	
 		
-		assertTrue(1==1);
-
 	}
 
 	public void updateFrequency(String key, int newValue, int oldValue){
 
-		LNode<Integer, HashSet<String>> oldNode=frequencyMap.get(oldValue);
-		LNode<Integer, HashSet<String>> newNode=frequencyMap.get(newValue);
+		Entry<Integer, HashSet<String>> oldNode=frequencyMap.get(oldValue);
+		Entry<Integer, HashSet<String>> newNode=frequencyMap.get(newValue);
 
 
 		if(newNode!=null){//if new node exists, then add key to data
@@ -70,7 +60,7 @@ public class AllOne {
 		}else if(newValue>0){ //if new node doesn't exist and greater than 1 then create one
 			HashSet<String> keys=new HashSet<String>();
 			keys.add(key);
-			newNode=new LNode<Integer, HashSet<String>>(newValue, keys, null, null);
+			newNode=new Entry<Integer, HashSet<String>>(keys, null, null);
 
 			if(oldNode!=null){
 				//now add new node in chain
@@ -102,46 +92,6 @@ public class AllOne {
 			frequencyMap.put(newValue, newNode);
 		}
 		
-		/*
-		if(frequency.containsKey(oldValue)){
-
-			frequency.get(oldValue).remove(key);
-		}
-		if(newValue>=1){
-
-			//add new frequency
-			if(frequency.containsKey(newValue)){
-				frequency.get(newValue).add(key);
-			}else{
-				HashSet<String> keys=new HashSet<String>();
-				keys.add(key);
-				frequency.put(newValue, keys);
-			}    
-		}    		
-
-		if(newValue>oldValue){//inc
-			if(newValue>max)
-				max=newValue;
-			if(newValue<min)
-				min=newValue;
-			if(oldValue==min){
-				if(frequency.get(min)==null || frequency.get(min).size()==0)
-					min=newValue;
-			}        		
-		}else{//dec
-			if(newValue>0 && newValue<min)
-				min=newValue;
-			if(oldValue==max){
-				if(frequency.get(max)==null || frequency.get(max).size()==0)
-					max=newValue;
-			} 
-
-		}
-		//initial calls
-		if(min==Integer.MAX_VALUE)
-			min=max;
-		if(max==Integer.MIN_VALUE)
-			max=min;*/
 
 	}
 
@@ -162,19 +112,13 @@ public class AllOne {
 			updateFrequency(key, newValue, oldValue);	
 		}
 
-		assertTrue(1==1);
-
 	}
 
 	/** Returns one of the keys with maximal value. */
 	public String getMaxKey() {
 		String maxKey=null;
-		/*if(max>0){
-			if(frequency.get(max)!=null && frequency.get(max).size()>0){
-				maxKey= frequency.get(max).iterator().next();
-			}
-		}*/	
-		LNode<Integer, HashSet<String>> lastNode=minMaxList.last;
+		
+		Entry<Integer, HashSet<String>> lastNode=minMaxList.last;
 		if(lastNode!=null && lastNode.data!=null){
 			maxKey=lastNode.data.iterator().next();
 		}
@@ -186,12 +130,8 @@ public class AllOne {
 	/** Returns one of the keys with Minimal value. */
 	public String getMinKey() {
 		String minKey=null;
-		/*if(min>0){
-			if(frequency.get(min)!=null && frequency.get(min).size()>0){
-				minKey= frequency.get(min).iterator().next();
-			}
-		}*/	
-		LNode<Integer, HashSet<String>> firstNode=minMaxList.head;
+		
+		Entry<Integer, HashSet<String>> firstNode=minMaxList.head;
 		if(firstNode!=null && firstNode.data!=null){
 			minKey=firstNode.data.iterator().next();
 		}
@@ -200,7 +140,7 @@ public class AllOne {
 
 	public static void main(String[] args) {
 		AllOne test=new AllOne();		
-		ArrayList<String> result=new ArrayList<String>();		
+		ArrayList<String> result=new ArrayList<String>();
 		test.inc("a");
 		test.inc("b");
 		result.add(test.getMaxKey());		
@@ -211,6 +151,11 @@ public class AllOne {
 		result.add(test.getMaxKey());result.add(test.getMinKey());		
 		assertThat(result, is(Arrays.asList("a","a","b","a", "a")));
 
+		test=new AllOne();		
+		result=new ArrayList<String>();		
+		result.add(test.getMaxKey());	result.add(test.getMinKey());		
+		assertThat(result, is(Arrays.asList(null,null)));	
+		
 		test=new AllOne();		
 		result=new ArrayList<String>();		
 		test.inc("a");result.add(test.getMaxKey());	result.add(test.getMinKey());		
@@ -250,6 +195,26 @@ public class AllOne {
 		test.dec("a");	
 		result.add(test.getMaxKey());	result.add(test.getMinKey());
 		assertThat(result, is(Arrays.asList("b","c","b","c")));		
+		
+		test=new AllOne();		
+		result=new ArrayList<String>();		
+		test.inc("a");
+		test.inc("a");
+		result.add(test.getMaxKey());	result.add(test.getMinKey());
+		test.dec("a");
+		test.dec("a");	
+		result.add(test.getMaxKey());	result.add(test.getMinKey());
+		assertThat(result, is(Arrays.asList("a","a",null,null)));	
+		
+		test=new AllOne();		
+		result=new ArrayList<String>();		
+		test.inc("a");
+		test.inc("b");
+		result.add(test.getMaxKey());	result.add(test.getMinKey());
+		test.dec("a");
+		test.dec("a");	
+		result.add(test.getMaxKey());	result.add(test.getMinKey());
+		assertThat(result, is(Arrays.asList("a","a","b","b")));		
 
 
 		System.out.println("All test cases passed");

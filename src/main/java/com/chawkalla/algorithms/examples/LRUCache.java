@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import com.chawkalla.algorithms.LinkedList;
-import com.chawkalla.algorithms.bean.LNode;
+import com.chawkalla.algorithms.bean.Entry;
 
 public class LRUCache {
 
 	private int capacity=0;
-	private HashMap<Integer, LNode<Integer, Integer>> map=new HashMap<Integer, LNode<Integer, Integer>>();
-	private LinkedList<Integer, Integer> list=new LinkedList<Integer, Integer>();
+	private HashMap<Integer, Entry<Integer, Integer>> map=new HashMap<Integer, Entry<Integer, Integer>>(); //entries are entry in linkedlist
+	private LinkedList<Integer, Integer> list=new LinkedList<Integer, Integer>(); //list will have entries of type int, int
 	//private java.util.LinkedList<LNode> list=new java.util.LinkedList<LNode>();
 
 	public LRUCache(int capacity) {
@@ -25,7 +25,7 @@ public class LRUCache {
 	public int get(int key) {
 		int value=-1;
 		if(map.containsKey(key)){
-			LNode<Integer, Integer> e=map.get(key);
+			Entry<Integer, Integer> e=map.get(key);
 			if(e!=null){
 				value=e.data;
 				//move entry to the end.
@@ -43,7 +43,7 @@ public class LRUCache {
 			return;
 		
 		if(map.containsKey(key)){
-			LNode<Integer, Integer> e=map.get(key);
+			Entry<Integer, Integer> e=map.get(key);
 			if(e!=null){
 				e.data=value;
 				//move entry to the end.
@@ -54,13 +54,13 @@ public class LRUCache {
 		}else{
 			if(list.size>=capacity){
 				while(list.size>=capacity){
-					LNode<Integer, Integer> n=list.removeFirst();	
+					Entry<Integer, Integer> n=list.removeFirst();	
 					if(n!=null)
-						map.remove(n.key);
+						map.remove(n.key); //remove items from map by keys
 				}
 			}
 			
-			LNode<Integer, Integer> e=new LNode<Integer, Integer>(value);
+			Entry<Integer, Integer> e=new Entry<Integer, Integer>(value);
 			e.key=key;
 			map.put(key, e);
 			list.add(e);
