@@ -49,7 +49,7 @@ public class LinkedList<K, T> {
 	//create window of [prev,curr,next]
 	//just change the next pointers of each
 	public void reverse(){
-		
+
 		if(head==null)
 			return;
 		LNode<K,T> current=head;
@@ -76,6 +76,21 @@ public class LinkedList<K, T> {
 		size++;
 	}
 	
+	public void push (LNode<K,T> node){
+		if(node==null)
+			return;
+		if(head==null){ //first node
+			head=node;
+			last=node;
+		}else{
+			node.next=head;
+			head.prev=node;			
+			head=node;
+		}
+		
+		size++;
+	}
+
 	public void add (LNode<K,T> node){
 		if(size==0){
 			head=last=node;
@@ -102,7 +117,7 @@ public class LinkedList<K, T> {
 			size--;
 			toBeRemoved.next=toBeRemoved.prev=null;
 		}
-		
+
 
 		return toBeRemoved;
 	}
@@ -111,23 +126,88 @@ public class LinkedList<K, T> {
 		if(node==null || size<=1 || last==node)
 			return;
 		//remove from current position
-		LNode<K,T> before=node.prev;
-		LNode<K,T> next=node.next;
-		
-		if(before==null){
-			head=next;
-			head.prev=null;
-		}			
-		else{
-			before.next=next;
-			next.prev=before;
-		}
+		remove(node);
 		//append at end
 		last.next=node;
 		node.prev=last;
 		node.next=null;
 		last=node;
 	}
+
+	public void remove(LNode<K,T> currentNode){
+		if(currentNode==null)
+			return;
+		//remove from current position
+		LNode<K,T> before=currentNode.prev;
+		LNode<K,T> next=currentNode.next;
+		
+		currentNode.prev=null;
+		currentNode.next=null;
+		
+		if(before!=null && next!=null){ //middle node
+			before.next=next;
+			next.prev=before;
+		}		
+		
+		if(before==null && next!=null){ //first node
+			head=next;
+			head.prev=null;
+		}	
+		
+		if(next==null && before!=null){//last node
+			last=before;
+			last.next=null;
+		}
+		
+		if(next==null && before==null){ //only node
+			head=null; last=null;
+		}
+		size--;
+			
+	}
+
+	public LNode<K,T> getBefore(LNode<K,T> currentNode){
+		if(currentNode==null)
+			return null;
+		return currentNode.prev;
+	}
+
+	public void insertBefore(LNode<K,T> currentNode, LNode<K,T> beforeNode){
+		if(beforeNode==null || currentNode==null)
+			return;
+		LNode<K,T> currentBefore=currentNode.prev;
+
+		currentNode.prev=beforeNode;
+		beforeNode.next=currentNode;
+		beforeNode.prev=currentBefore;
+		if(currentBefore!=null)
+			currentBefore.next=beforeNode;	
+		else
+			head=beforeNode;
+		size++;
+	}
+
+	public LNode<K,T> getAfter(LNode<K,T> currentNode){
+		if(currentNode==null)
+			return null;
+		return currentNode.next;
+	}
+
+	public void insertAfter(LNode<K,T> currentNode, LNode<K,T> afterNode){
+		if(afterNode==null || currentNode==null)
+			return;
+		LNode<K,T> currentAfter=currentNode.next;
+
+		currentNode.next=afterNode;
+		afterNode.prev=currentNode;
+		afterNode.next=currentAfter;
+		if(currentAfter!=null)
+			currentAfter.prev=afterNode;
+		else
+			last=afterNode;
+		size++;
+	}
+
 
 
 
@@ -141,7 +221,7 @@ public class LinkedList<K, T> {
 		}
 		System.out.println();
 	}
-	
+
 	public int size(){
 		return size;
 	}
@@ -157,7 +237,7 @@ public class LinkedList<K, T> {
 		}
 		return count;
 	}
-	
+
 
 	public static void main(String[] args) {
 		LinkedList<Integer, Integer> list=new LinkedList<Integer, Integer>();
