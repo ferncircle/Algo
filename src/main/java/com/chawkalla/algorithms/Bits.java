@@ -1,5 +1,8 @@
 package com.chawkalla.algorithms;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public class Bits {
 
 	public static void main(String[] args) {
@@ -23,6 +26,18 @@ public class Bits {
 		System.out.println(Integer.parseInt("11100",2)+ "   "+Integer.parseInt("11010", 2)+"  "+Integer.parseInt("100011",2));
 		countOnes(19);
 		System.out.println("binary to integer 1000="+Integer.parseInt("1000", 2));
+		
+		assertThat(Bits.getIthBit(5, 1), is('0'));
+		assertThat(Bits.getIthBit(5, 0), is('1'));
+		assertThat(Bits.getIthBit(5, 2), is('1'));
+		assertThat(Bits.getIthBit(5, 4), is('0'));
+		assertThat(Bits.getIthBit(5, 31), is('0'));
+		assertThat(Bits.getIthBit(-100, 31), is('1'));
+		System.out.println(Integer.toBinaryString(-100));
+		
+		System.out.println(Integer.toString(5, 2));
+		
+		System.out.println("All test cases passed");
 	}
 	
 	public static int convertSign(int number){
@@ -51,6 +66,19 @@ public class Bits {
 		System.out.println("sum="+Integer.toBinaryString(sum)+ " carry="+Integer.toBinaryString(carry));
 		
 		return addNumbers(sum, carry);
+	}
+	
+	public static char getIthBit(int n, int i){
+		return (((n >> i) & 1)==1)?'1':'0';
+	}
+	
+	public static String getBinaryString(int n, int msb){
+		StringBuffer sb=new StringBuffer();
+		for(int j=msb;j>=0;j--){
+			sb.append(Bits.getIthBit(n, j));
+		}
+		return sb.toString();
+		
 	}
 
 }

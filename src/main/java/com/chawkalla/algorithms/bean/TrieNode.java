@@ -12,4 +12,14 @@ public class TrieNode {
 	public TrieNode(char c){
 		this.c = c;
 	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb=new StringBuffer();
+		sb.append(c+" ,");
+		if(children!=null)
+			sb.append(children.keySet()+ " ,");
+		sb.append("isLeaf="+isLeaf);
+		return sb.toString();
+	}
 }

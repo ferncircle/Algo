@@ -12,7 +12,7 @@ import com.chawkalla.algorithms.bean.Entry;
 import com.chawkalla.algorithms.ds.LinkedList;
 
 
-public class AllOne {
+public class AllBigOOne {
 
 	LinkedList<Integer, HashSet<String>> minMaxList;
 	HashMap<Integer, Entry<Integer, HashSet<String>>> frequencyMap;
@@ -20,7 +20,7 @@ public class AllOne {
 
 
 	/** Initialize your data structure here. */
-	public AllOne() {
+	public AllBigOOne() {
 		
 		repo=new HashMap<String, Integer>();		
 		frequencyMap=new HashMap<Integer, Entry<Integer,HashSet<String>>>();
@@ -139,7 +139,7 @@ public class AllOne {
 	
 
 	public static void main(String[] args) {
-		AllOne test=new AllOne();		
+		AllBigOOne test=new AllBigOOne();		
 		ArrayList<String> result=new ArrayList<String>();
 		test.inc("a");
 		test.inc("b");
@@ -151,22 +151,22 @@ public class AllOne {
 		result.add(test.getMaxKey());result.add(test.getMinKey());		
 		assertThat(result, is(Arrays.asList("a","a","b","a", "a")));
 
-		test=new AllOne();		
+		test=new AllBigOOne();		
 		result=new ArrayList<String>();		
 		result.add(test.getMaxKey());	result.add(test.getMinKey());		
 		assertThat(result, is(Arrays.asList("","")));	
 		
-		test=new AllOne();		
+		test=new AllBigOOne();		
 		result=new ArrayList<String>();		
 		test.inc("a");result.add(test.getMaxKey());	result.add(test.getMinKey());		
 		assertThat(result, is(Arrays.asList("a","a")));		
 
-		test=new AllOne();		
+		test=new AllBigOOne();		
 		result=new ArrayList<String>();		
 		test.dec("3");result.add(test.getMaxKey());	result.add(test.getMinKey());		
 		assertThat(result, is(Arrays.asList("","")));	
 
-		test=new AllOne();		
+		test=new AllBigOOne();		
 		result=new ArrayList<String>();		
 		test.inc("a");
 		test.inc("a");
@@ -179,7 +179,7 @@ public class AllOne {
 		result.add(test.getMaxKey());	result.add(test.getMinKey());
 		assertThat(result, is(Arrays.asList("a","b","b","b")));		
 
-		test=new AllOne();		
+		test=new AllBigOOne();		
 		result=new ArrayList<String>();		
 		test.inc("a");
 		test.inc("a");
@@ -196,7 +196,7 @@ public class AllOne {
 		result.add(test.getMaxKey());	result.add(test.getMinKey());
 		assertThat(result, is(Arrays.asList("b","c","b","c")));		
 		
-		test=new AllOne();		
+		test=new AllBigOOne();		
 		result=new ArrayList<String>();		
 		test.inc("a");
 		test.inc("a");
@@ -206,7 +206,7 @@ public class AllOne {
 		result.add(test.getMaxKey());	result.add(test.getMinKey());
 		assertThat(result, is(Arrays.asList("a","a","","")));	
 		
-		test=new AllOne();		
+		test=new AllBigOOne();		
 		result=new ArrayList<String>();		
 		test.inc("a");
 		test.inc("b");

@@ -15,6 +15,7 @@ public class Trie {
 
 	// Inserts a word into the trie.
 	public void insert(String word) {
+		//System.out.println("Adding to trie "+word);
 		HashMap<Character, TrieNode> children = root.children;
 
 		for(int i=0; i<word.length(); i++){
@@ -69,5 +70,59 @@ public class Trie {
 		}
 
 		return t;
+	}
+	
+	public String getClosestMatch(String str){
+		StringBuffer sb=new StringBuffer();
+		//System.out.println("finding closest match in trie "+str);
+		getClosestMatch(root, str, sb);
+		return sb.toString();
+	}
+	
+	private int getClosestMatch(TrieNode currentNode, String str, StringBuffer buf){
+		if(str==null || str.length()==0 || currentNode==null || currentNode.children==null)
+			return 0;
+		
+		boolean done=false;
+		int i=0;
+		int matchCounter=0;
+		while(!done){
+			char c = str.charAt(i);	
+			
+			if(currentNode.children.containsKey(c)){ //character matched
+				currentNode=currentNode.children.get(c);
+				buf.append(c);
+				matchCounter++;
+			}else{ //character didn't match
+				if(currentNode.children.size()==1){ //only one option to fork
+					char misMatchedChar=currentNode.children.keySet().iterator().next();
+					buf.append(misMatchedChar);
+					currentNode=currentNode.children.get(misMatchedChar);
+				}else{ //multiple children options to fork, go recursive to get maximum match
+					
+					int longestRemainingMatch=0;
+					String longestRemainingMatchStr="";
+					for (Character a:currentNode.children.keySet()) {
+						StringBuffer sb=new StringBuffer(a);
+						String remaining=str.substring(i);
+						int match=getClosestMatch(currentNode.children.get(a), remaining, sb);
+						if(match>longestRemainingMatch){
+							longestRemainingMatch=match;
+							longestRemainingMatchStr=sb.toString();
+						}
+							
+					}
+					buf.append(longestRemainingMatchStr);
+					matchCounter+=longestRemainingMatch;
+					done=true;
+					
+				}
+			}
+			i++;
+			if(i>str.length()-1)
+				done=true;
+		}
+		
+		return matchCounter;
 	}
 }
