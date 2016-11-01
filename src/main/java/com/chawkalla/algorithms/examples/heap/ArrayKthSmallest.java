@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms;
+package com.chawkalla.algorithms.examples.heap;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -31,6 +31,7 @@ public class ArrayKthSmallest {
 		});
 		
 		int kth=0;
+		//initial queue items
 		for(int i=0;i<matrix.length;i++){
 			queue.add(new Item(i,0));
 		}
@@ -38,6 +39,7 @@ public class ArrayKthSmallest {
 		int counter=1;
 		boolean done=false;
 		while(!done){
+			//remove smallest item 
 			Item item=queue.remove();
 			if(counter==k){
 				kth=matrix[item.row][item.col];
@@ -46,6 +48,7 @@ public class ArrayKthSmallest {
 			
 			int[] row=matrix[item.row];
 			
+			//get neighbor of smallest item if available and add to queue
 			Item newItem=null;
 			if(item.col+1<row.length){
 				newItem=new Item(item.row,item.col+1);
@@ -65,6 +68,12 @@ public class ArrayKthSmallest {
 				{10, 11, 13},
 				{12, 13, 15}
 		}, 8), is(13));
+		
+		assertThat(new ArrayKthSmallest().kthSmallest(new int[][]{
+				{ 1,  5,  9},
+				{10, 11, 13},
+				{12, 13, 15}
+		}, 2), is(5));
 
 		System.out.println("All test cases passed");
 
