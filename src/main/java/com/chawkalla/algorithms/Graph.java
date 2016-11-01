@@ -13,7 +13,7 @@ public class Graph {
 		int[][] dist=new int[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				if(matrix[i][j]==0)
+				if(matrix[i][j]==0 || matrix[i][j]==Integer.MAX_VALUE)
 					dist[i][j]=100000;
 				else
 					dist[i][j]=matrix[i][j];
@@ -44,16 +44,20 @@ public class Graph {
 
 		return M;
 	}
-	
-	
 	public static HashMap<Integer, List<Integer>> createAdjList(int[][] edges){
+		
+		return createAdjList(edges,false);
+	}
+	
+	public static HashMap<Integer, List<Integer>> createAdjList(int[][] edges, boolean directed){
 		HashMap<Integer, List<Integer>> adj=new HashMap<Integer, List<Integer>>();
 		if(edges==null || edges.length==0)
 			return null;
 		for(int[] edge:edges){
 			if(edge!=null){
 				addKeyValue(adj, edge[0], edge[1]);
-				addKeyValue(adj, edge[1], edge[0]);
+				if(!directed)
+					addKeyValue(adj, edge[1], edge[0]);
 			}
 		}
 
@@ -149,6 +153,43 @@ public class Graph {
 		}	
 
 		return nodes;
+	}
+	
+
+	public int getShortestPathIterative(int start, int end, final HashMap<Integer, List<Integer>> graph){
+		int path=0;
+		
+		int dummy=Integer.MAX_VALUE;
+		Queue<Integer> queue=new LinkedList<Integer>();
+		HashSet<Integer> visited=new HashSet<Integer>();
+		queue.add(start);
+		queue.add(dummy);
+		boolean found=false;
+		while(!queue.isEmpty()){
+			int current=queue.remove();			
+			
+			if(current==end){
+				found=true;
+				break;
+			}
+				
+			if(current==dummy && !queue.isEmpty()){//this is IMPORTANT! only add dummy node when current is dummy node and queue is not empty(terminal case)		
+				path++;
+				queue.add(dummy);
+			}else{				
+				if(visited.contains(current))
+					continue;
+				visited.add(current);
+				List<Integer> neighbors=graph.get(current);
+				if(neighbors!=null)
+					queue.addAll(neighbors);
+			}
+		}	
+		
+		if(!found)
+			path=Integer.MAX_VALUE;
+		
+		return path;
 	}
 	
 	public static void getNthNodes(int node, int level,
