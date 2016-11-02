@@ -15,10 +15,9 @@ public class Trie {
 
 	// Inserts a word into the trie.
 	public void insert(String word) {
-		//System.out.println("Adding to trie "+word);
 		HashMap<Character, TrieNode> children = root.children;
 
-		for(int i=0; i<word.length(); i++){
+		for(int i=0; i<word.length(); i++){ //TODO: Notice the use of for loop instead of recursion
 			char c = word.charAt(i);
 
 			TrieNode t;
@@ -29,7 +28,7 @@ public class Trie {
 				children.put(c, t);
 			}
 
-			children = t.children;
+			children = t.children;//TODO: notice the use of children for next loop
 
 			//set leaf node
 			if(i==word.length()-1)
@@ -63,7 +62,7 @@ public class Trie {
 			char c = str.charAt(i);
 			if(children.containsKey(c)){
 				t = children.get(c);
-				children = t.children;
+				children = t.children; 
 			}else{
 				return null;
 			}

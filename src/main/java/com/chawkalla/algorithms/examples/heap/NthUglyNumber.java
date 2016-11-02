@@ -15,9 +15,9 @@ public class NthUglyNumber {
         
         int kth=0;
 		//initial queue items
-		queue.add(2l);
-		queue.add(3l);
-		queue.add(5l);
+		queue.add(2L);
+		queue.add(3L);
+		queue.add(5L);
 
 		int counter=2;
 		boolean done=false;
