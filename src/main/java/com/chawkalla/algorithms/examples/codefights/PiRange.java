@@ -1,7 +1,5 @@
 package com.chawkalla.algorithms.examples.codefights;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class PiRange {
 

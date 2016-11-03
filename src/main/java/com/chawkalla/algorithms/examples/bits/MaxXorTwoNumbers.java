@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -214,7 +213,7 @@ public class MaxXorTwoNumbers {
 		System.out.println("Excution 1="+(after-before));*/
 		
 		before=System.currentTimeMillis();
-		int x=new MaxXorTwoNumbers().findMaximumXOR(a);	
+		//int x=new MaxXorTwoNumbers().findMaximumXOR(a);	
 		after=System.currentTimeMillis();
 		System.out.println("Excution 2="+(after-before));
 		

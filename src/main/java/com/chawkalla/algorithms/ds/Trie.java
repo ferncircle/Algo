@@ -1,8 +1,5 @@
 package com.chawkalla.algorithms.ds;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.chawkalla.algorithms.bean.TrieNode;
 
 public class Trie {
@@ -15,21 +12,16 @@ public class Trie {
 
 	// Inserts a word into the trie.
 	public void insert(String word) {
-		HashMap<Character, TrieNode> children = root.children;
-
-		for(int i=0; i<word.length(); i++){ //TODO: Notice the use of for loop instead of recursion
+		TrieNode t = root;
+		for(int i=0; i<word.length(); i++){ 
 			char c = word.charAt(i);
-
-			TrieNode t;
-			if(children.containsKey(c)){
-				t = children.get(c);
-			}else{
-				t = new TrieNode(c);
-				children.put(c, t);
-			}
-
-			children = t.children;//TODO: notice the use of children for next loop
-
+			
+			if(!t.children.containsKey(c)){
+				TrieNode child = new TrieNode(c);
+				t.children.put(c, child);
+				
+			}			
+			t = t.children.get(c);
 			//set leaf node
 			if(i==word.length()-1)
 				t.isLeaf = true;    
@@ -55,20 +47,51 @@ public class Trie {
 			return true;
 	}
 
-	public TrieNode searchNode(String str){
-		Map<Character, TrieNode> children = root.children; 
-		TrieNode t = null;
+	private TrieNode searchNode(String str){
+		return searchNode(root, str);
+	}
+	
+	private TrieNode searchNode(TrieNode t, String str){
 		for(int i=0; i<str.length(); i++){
 			char c = str.charAt(i);
-			if(children.containsKey(c)){
-				t = children.get(c);
-				children = t.children; 
+			if(t.children.containsKey(c)){
+				t = t.children.get(c);
 			}else{
 				return null;
 			}
 		}
 
 		return t;
+	}
+	
+	public boolean searchRegex(String str){
+		return searchRegex(root, str);
+	}
+	
+	private boolean searchRegex(TrieNode node, String str){
+		if(node.isLeaf && (str==null || str.length()==0))
+			return true;
+		if(!node.isLeaf && (str==null || str.length()==0))
+			return false;
+		
+		char currentChar=str.charAt(0);
+		String remaining=str.substring(1);
+		if(currentChar=='.'){
+			//get all paths
+			for(char child:node.children.keySet()){
+				TrieNode childNode=node.children.get(child);
+				if(searchRegex(childNode, remaining))
+					return true;	
+			}
+			//none found
+			return false;
+		}else{
+			if(node.children.containsKey(currentChar))
+				return searchRegex(node.children.get(currentChar), remaining);
+			else 
+				return false;
+		}
+		
 	}
 	
 	public String getClosestMatch(String str){
