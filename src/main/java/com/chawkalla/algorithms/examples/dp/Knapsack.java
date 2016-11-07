@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms;
+package com.chawkalla.algorithms.examples.dp;
 
 public class Knapsack {
 

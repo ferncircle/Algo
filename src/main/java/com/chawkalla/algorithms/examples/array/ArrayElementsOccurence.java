@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms;
+package com.chawkalla.algorithms.examples.array;
 
 import java.util.Arrays;
 

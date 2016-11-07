@@ -1,8 +1,8 @@
 package com.chawkalla.algorithms.ds;
 
-import com.chawkalla.algorithms.BST;
 import com.chawkalla.algorithms.bean.Entry;
 import com.chawkalla.algorithms.bean.TNode;
+import com.chawkalla.algorithms.examples.tree.BST;
 
 public class LinkedList<K, T> {
 

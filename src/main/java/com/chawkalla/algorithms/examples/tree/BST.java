@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms;
+package com.chawkalla.algorithms.examples.tree;
 
 import java.util.LinkedList;
 import java.util.Queue;

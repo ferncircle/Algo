@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms.examples;
+package com.chawkalla.algorithms.examples.design;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

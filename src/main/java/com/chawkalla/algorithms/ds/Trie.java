@@ -16,12 +16,12 @@ public class Trie {
 		for(int i=0; i<word.length(); i++){ 
 			char c = word.charAt(i);
 			
-			if(!t.children.containsKey(c)){
+			if(!t.containsKey(c)){
 				TrieNode child = new TrieNode(c);
-				t.children.put(c, child);
+				t.addKey(c, child);
 				
 			}			
-			t = t.children.get(c);
+			t = t.getKey(c);
 			//set leaf node
 			if(i==word.length()-1)
 				t.isLeaf = true;    
@@ -54,8 +54,8 @@ public class Trie {
 	private TrieNode searchNode(TrieNode t, String str){
 		for(int i=0; i<str.length(); i++){
 			char c = str.charAt(i);
-			if(t.children.containsKey(c)){
-				t = t.children.get(c);
+			if(t.containsKey(c)){
+				t = t.getKey(c);
 			}else{
 				return null;
 			}
@@ -78,16 +78,16 @@ public class Trie {
 		String remaining=str.substring(1);
 		if(currentChar=='.'){
 			//get all paths
-			for(char child:node.children.keySet()){
-				TrieNode childNode=node.children.get(child);
+			for(char child:node.getAllKeys()){
+				TrieNode childNode=node.getKey(child);
 				if(searchRegex(childNode, remaining))
 					return true;	
 			}
 			//none found
 			return false;
 		}else{
-			if(node.children.containsKey(currentChar))
-				return searchRegex(node.children.get(currentChar), remaining);
+			if(node.containsKey(currentChar))
+				return searchRegex(node.getKey(currentChar), remaining);
 			else 
 				return false;
 		}
@@ -102,7 +102,7 @@ public class Trie {
 	}
 	
 	private int getClosestMatch(TrieNode currentNode, String str, StringBuffer buf){
-		if(str==null || str.length()==0 || currentNode==null || currentNode.children==null)
+		if(str==null || str.length()==0 || currentNode==null || currentNode.getAllKeys()==null)
 			return 0;
 		
 		boolean done=false;
@@ -111,23 +111,23 @@ public class Trie {
 		while(!done){
 			char c = str.charAt(i);	
 			
-			if(currentNode.children.containsKey(c)){ //character matched
-				currentNode=currentNode.children.get(c);
+			if(currentNode.containsKey(c)){ //character matched
+				currentNode=currentNode.getKey(c);
 				buf.append(c);
 				matchCounter++;
 			}else{ //character didn't match
-				if(currentNode.children.size()==1){ //only one option to fork
-					char misMatchedChar=currentNode.children.keySet().iterator().next();
+				if(currentNode.getAllKeys().size()==1){ //only one option to fork
+					char misMatchedChar=currentNode.getAllKeys().iterator().next();
 					buf.append(misMatchedChar);
-					currentNode=currentNode.children.get(misMatchedChar);
+					currentNode=currentNode.getKey(misMatchedChar);
 				}else{ //multiple children options to fork, go recursive to get maximum match
 					
 					int longestRemainingMatch=0;
 					String longestRemainingMatchStr="";
-					for (Character a:currentNode.children.keySet()) {
+					for (Character a:currentNode.getAllKeys()) {
 						StringBuffer sb=new StringBuffer(a);
 						String remaining=str.substring(i);
-						int match=getClosestMatch(currentNode.children.get(a), remaining, sb);
+						int match=getClosestMatch(currentNode.getKey(a), remaining, sb);
 						if(match>longestRemainingMatch){
 							longestRemainingMatch=match;
 							longestRemainingMatchStr=sb.toString();
