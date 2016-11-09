@@ -455,22 +455,7 @@ public class Answer33Double {
 
 		};
 		System.out.println(Arrays.toString(answer(d)));
-		System.out.println();
-		int[][] e={
-				{0,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,0,0,Integer.MAX_VALUE}, 
-				{0,0,0,0,0,0,0,0,0,0}, 
-				{2,0,0,0,0,0,0,0,0,0}, 
-				{0,0,0,0,0,0,0,0,0,0}, 
-				{0,0,0,0,0,0,0,0,0,0}, 
-				{0,0,0,0,0,0,0,0,0,0}, 
-				{0,0,0,0,0,0,0,0,0,0}, 
-				{0,0,0,0,0,0,0,0,0,0}, 
-				{0,0,0,0,0,0,0,0,0,0}, 
-				{0,0,0,0,0,0,0,0,0,0}
-
-
-		};
-		//System.out.println(Arrays.toString(answer(e)));
+		System.out.println();		
 
 		int[][] d3={
 				{1, 2, 3, 0, 0, 0}, 
@@ -481,10 +466,7 @@ public class Answer33Double {
 				{0, 0, 0, 0, 0, 0}
 		};		
 		System.out.println(Arrays.toString(answer(d3)));
-		//System.out.println(findDenominator(9, 1, 100000, round(0.6428571428571429, 5),5));
-		int a=23;
-		char ch='<';
-		//System.out.println(Character.getNumericValue(ch)+ " cast="+(int)ch);
+		
 
 	}
 
