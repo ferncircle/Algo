@@ -12,16 +12,15 @@ public class SuffixTree {
 
 	public void build(String s){
 
-		char[] a=s.toCharArray();
 		
-		for(int i=(a.length-1);i>=0;i--){
+		for(int i=(s.length()-1);i>=0;i--){
 			SuffixNode current=root;
 			
-			for(int j=i;j<a.length;j++){
-				String c=""+a[j];			
+			for(int j=i;j<s.length();j++){
+				String c=""+s.charAt(j);			
 				if(!current.edges.containsKey(c)){
 					SuffixNode n=new SuffixNode();
-					if(j==(a.length-1))
+					if(j==(s.length()-1))
 						n.isLeaf=true;
 					current.edges.put(c, n);
 					current=n;
@@ -37,20 +36,25 @@ public class SuffixTree {
 		int i=0;
 		int charsMatched=0;
 		SuffixNode current=root;
-		while(true){
-			if(current.isLeaf)
-				charsMatched=i;
+		boolean done=false;
+		while(!done){
 			
-			if(i>=s.length() || current==null)
-				break;
+			String c=""+s.charAt(i);					
 			
-			String c=""+s.charAt(i);		
 			if(current.edges.containsKey(c)){
 				i++;
 				current=current.edges.get(c);
 			}
 			else
-				break;
+				done=true;
+			
+			if(current.isLeaf){
+				charsMatched=i;
+			}				
+			
+			
+			if(i>=s.length())
+				done=true;
 		}
 		
 		return charsMatched;

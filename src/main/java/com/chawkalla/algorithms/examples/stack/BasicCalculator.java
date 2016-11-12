@@ -40,10 +40,11 @@ public class BasicCalculator {
 			if(Character.isDigit(curChar) || curChar=='('){
 				int d=0;
 				int j=i;
-				if(Character.isDigit(curChar)){
-					while (j < s.length() && Character.isDigit(s.charAt(j)))
+				if(Character.isDigit(curChar)){					
+					while (j < s.length() && Character.isDigit(s.charAt(j))){
+						d=d*10+s.charAt(j)-'0';
 						j++;
-					d=Integer.parseInt(s.substring(i,j));
+					}						
 					i=j;
 				}else if(curChar=='('){
 					j=matchingBracket.get(i);

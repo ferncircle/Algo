@@ -1,5 +1,9 @@
 package com.chawkalla.algorithms.ds;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import com.chawkalla.algorithms.bean.TrieNode;
 
 public class Trie {
@@ -12,19 +16,27 @@ public class Trie {
 
 	// Inserts a word into the trie.
 	public void insert(String word) {
+		insert(word, -1);
+	}
+	
+	public void insert(String word, int indexOfWord) {
 		TrieNode t = root;
 		for(int i=0; i<word.length(); i++){ 
 			char c = word.charAt(i);
 			
-			if(!t.containsKey(c)){
+			if(!t.containsChar(c)){
 				TrieNode child = new TrieNode(c);
-				t.addKey(c, child);
+				t.addChar(c, child);
 				
 			}			
-			t = t.getKey(c);
+			t = t.getCharNode(c);
 			//set leaf node
-			if(i==word.length()-1)
-				t.isLeaf = true;    
+			if(i==word.length()-1){
+				t.isLeaf = true; 
+				if(indexOfWord>=0)
+					t.indexOfWord=indexOfWord;
+			}
+				
 		}
 	}
 
@@ -46,6 +58,34 @@ public class Trie {
 		else
 			return true;
 	}
+	
+	public List<String> startsWithWords(String prefix) {
+		List<String> list=new ArrayList<String>();
+		TrieNode p=searchNode(prefix);
+		if(p != null) {
+			getAllWords("", p, list);
+		}
+		return list;
+	}
+	
+	private void getAllWords(String prefix, TrieNode node, List<String> list){
+		if(node==null)
+			return;
+		if(node.isLeaf){
+			String word=prefix;
+			if(node.indexOfWord!=null)
+				word=prefix+":"+node.indexOfWord;
+			list.add(word);
+			
+		}
+		Set<Character> childChars=node.getAllChars();
+		if(childChars!=null){
+			for(char ch:childChars){
+				getAllWords(prefix+ch, node.getCharNode(ch), list);
+			}
+		}
+		
+	}
 
 	private TrieNode searchNode(String str){
 		return searchNode(root, str);
@@ -54,8 +94,8 @@ public class Trie {
 	private TrieNode searchNode(TrieNode t, String str){
 		for(int i=0; i<str.length(); i++){
 			char c = str.charAt(i);
-			if(t.containsKey(c)){
-				t = t.getKey(c);
+			if(t.containsChar(c)){
+				t = t.getCharNode(c);
 			}else{
 				return null;
 			}
@@ -78,16 +118,16 @@ public class Trie {
 		String remaining=str.substring(1);
 		if(currentChar=='.'){
 			//get all paths
-			for(char child:node.getAllKeys()){
-				TrieNode childNode=node.getKey(child);
+			for(char child:node.getAllChars()){
+				TrieNode childNode=node.getCharNode(child);
 				if(searchRegex(childNode, remaining))
 					return true;	
 			}
 			//none found
 			return false;
 		}else{
-			if(node.containsKey(currentChar))
-				return searchRegex(node.getKey(currentChar), remaining);
+			if(node.containsChar(currentChar))
+				return searchRegex(node.getCharNode(currentChar), remaining);
 			else 
 				return false;
 		}
@@ -102,7 +142,7 @@ public class Trie {
 	}
 	
 	private int getClosestMatch(TrieNode currentNode, String str, StringBuffer buf){
-		if(str==null || str.length()==0 || currentNode==null || currentNode.getAllKeys()==null)
+		if(str==null || str.length()==0 || currentNode==null || currentNode.getAllChars()==null)
 			return 0;
 		
 		boolean done=false;
@@ -111,23 +151,23 @@ public class Trie {
 		while(!done){
 			char c = str.charAt(i);	
 			
-			if(currentNode.containsKey(c)){ //character matched
-				currentNode=currentNode.getKey(c);
+			if(currentNode.containsChar(c)){ //character matched
+				currentNode=currentNode.getCharNode(c);
 				buf.append(c);
 				matchCounter++;
 			}else{ //character didn't match
-				if(currentNode.getAllKeys().size()==1){ //only one option to fork
-					char misMatchedChar=currentNode.getAllKeys().iterator().next();
+				if(currentNode.getAllChars().size()==1){ //only one option to fork
+					char misMatchedChar=currentNode.getAllChars().iterator().next();
 					buf.append(misMatchedChar);
-					currentNode=currentNode.getKey(misMatchedChar);
+					currentNode=currentNode.getCharNode(misMatchedChar);
 				}else{ //multiple children options to fork, go recursive to get maximum match
 					
 					int longestRemainingMatch=0;
 					String longestRemainingMatchStr="";
-					for (Character a:currentNode.getAllKeys()) {
+					for (Character a:currentNode.getAllChars()) {
 						StringBuffer sb=new StringBuffer(a);
 						String remaining=str.substring(i);
-						int match=getClosestMatch(currentNode.getKey(a), remaining, sb);
+						int match=getClosestMatch(currentNode.getCharNode(a), remaining, sb);
 						if(match>longestRemainingMatch){
 							longestRemainingMatch=match;
 							longestRemainingMatchStr=sb.toString();

@@ -1,33 +1,34 @@
 package com.chawkalla.algorithms.bean;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class TrieNode {
 	public char c;
-	public final int OFFSET=48; //for a-z=97, for 0-9=48
-	public final int SIZE=10;  //for a-z=26, for 0-9=10
-	public HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
+	public final int OFFSET=0; //for a-z=97, for 0-9=48, for all chars=0
+	public final int SIZE=256;  //for a-z=26, for 0-9=10, for all chars=256
+	//public HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
 	TrieNode[] letters=new TrieNode[SIZE];
+	public Integer indexOfWord;
+	
 	public boolean isLeaf;
 	
-	public boolean containsKey(char key){
+	public boolean containsChar(char ch){
 		//return children.containsKey(key);
-		return letters[(int)key-OFFSET]!=null;
+		return letters[ch-OFFSET]!=null;
 	}
 	
-	public void addKey(char key, TrieNode node){
+	public void addChar(char ch, TrieNode node){
 		//children.put(key, node);
-		letters[(int)key-OFFSET]=node;
+		letters[ch-OFFSET]=node;
 	}
 	
-	public TrieNode getKey(char key){
+	public TrieNode getCharNode(char ch){
 		//return children.get(key);
-		return letters[(int)key-OFFSET];
+		return letters[ch-OFFSET];
 	}
 	
-	public Set<Character> getAllKeys(){
+	public Set<Character> getAllChars(){
 		//return children.keySet();
 		
 		HashSet<Character> keys=new HashSet<Character>();
@@ -50,8 +51,8 @@ public class TrieNode {
 	public String toString() {
 		StringBuffer sb=new StringBuffer();
 		sb.append(c+" ,");
-		if(children!=null)
-			sb.append(children.keySet()+ " ,");
+		if(letters!=null)
+			sb.append(letters+ " ,");
 		sb.append("isLeaf="+isLeaf);
 		return sb.toString();
 	}
