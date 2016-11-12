@@ -3,7 +3,7 @@ package com.chawkalla.algorithms.examples.stack;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -70,9 +70,10 @@ public class RemoveDuplicateLetter {
 		
 		int N=s.length();
 		
-		Stack<Integer>[] pos=new Stack[26];
-		for (int i = 0; i < pos.length; i++) {
-			pos[i]=new Stack<Integer>();
+		ArrayList<Stack<Integer>> pos=new ArrayList<Stack<Integer>>();
+		//Stack<Integer>[] pos=new Stack[26];
+		for (int i = 0; i < 26; i++) {
+			pos.add(i,new Stack<Integer>());
 		}
 		
 		//int lastPos[26]={-1};
@@ -83,10 +84,10 @@ public class RemoveDuplicateLetter {
 		
 		for (int i=N-1;i>=0;i--){
 			int cur= s.charAt(i)-'a';
-			if (pos[cur].isEmpty())
+			if (pos.get(cur).isEmpty())
 				lastPos[cur]=i;
 
-			pos[cur].push(i);
+			pos.get(cur).push(i);
 		}
 
 		boolean[] visited=new boolean[26];
@@ -96,7 +97,7 @@ public class RemoveDuplicateLetter {
 			int cur = s.charAt(i)-'a';
 
 			if (visited[cur]) continue;
-			if (pos[cur].size()==1){ //last character of cur
+			if (pos.get(cur).size()==1){ //last character of cur
 				ans+=s.charAt(i);
 				visited[cur]=true;
 			}
@@ -104,13 +105,13 @@ public class RemoveDuplicateLetter {
 				boolean isSmaller=false;
 				int minpos=N;
 				for (int k=0;k<26;k++){
-					if (!visited[k] && !pos[k].empty())
+					if (!visited[k] && !pos.get(k).empty())
 						minpos=Math.min(minpos,lastPos[k]);
 				}
 
 				for (int k=0;k<cur && !isSmaller;k++){
-					if (visited[k] || pos[k].empty()) continue;
-					if (pos[k].peek()<=minpos)
+					if (visited[k] || pos.get(k).empty()) continue;
+					if (pos.get(k).peek()<=minpos)
 						isSmaller=true;
 				}
 
@@ -120,7 +121,7 @@ public class RemoveDuplicateLetter {
 				}
 			}
 
-			pos[cur].pop();
+			pos.get(cur).pop();
 		}
 
 		return ans;
