@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 import java.util.Random;
 
 import com.chawkalla.algorithms.ds.SuffixTree;
+import com.chawkalla.algorithms.examples.string.KMP;
 
 /**
  * 
@@ -17,27 +18,29 @@ import com.chawkalla.algorithms.ds.SuffixTree;
  * Goal: find longest prefix that is palindrome
  */
 public class ShortestPalindrome {
-		
-		
-	public String _shortestPalindrome(String s) {		
+
+
+	//using suffix tree
+	public String shortestPalindrom1(String s) {		
 		if(s==null || s.length()==0)
 			return s;
 		//reverse the string and build suffix tree
 		SuffixTree tree=new SuffixTree();
 		tree.build(new StringBuffer(s).reverse().toString());
-		
-		
+
+
 		//navigate original tree in suffix 
 		int charsMatched=tree.getCharactersMatched(s);
-		
+
 		String remaining=s.substring(charsMatched);
 		StringBuffer sb=new StringBuffer(remaining);
 		String palindrome=sb.reverse().toString()+s;
-		
+
 		return palindrome;
 	}
-	
-	public String shortestPalindrome(String s) {		
+
+	//suboptimal solution
+	public String shortestPalindrome2(String s) {		
 		if(s==null || s.length()==0)
 			return s;
 		//find the longest palindrome starting at index 0
@@ -50,25 +53,44 @@ public class ShortestPalindrome {
 					palindrome=false;
 					break;
 				}
-					
+
 			}
 			if(palindrome){
 				longestStartingPalindrome=i;
 				break;
 			}
 		}
-		
+
 		String remaining=s.substring(longestStartingPalindrome+1);
 		StringBuffer sb=new StringBuffer(remaining);
 		String palindrome=sb.reverse().toString()+s;
-		
+
+		return palindrome;
+	}
+
+	//optimal solution using KMP 
+	public String shortestPalindrome(String s) {		
+		if(s==null || s.length()==0)
+			return s;
+
+		//create string+$+revString
+		StringBuffer orig=new StringBuffer(s);
+
+		String compound=orig.toString()+"$"+orig.reverse().toString();
+
+		int palindromeEnd=KMP.lps(compound)[compound.length()-1];
+		String remaining=s.substring(palindromeEnd);
+
+		StringBuffer sb=new StringBuffer(remaining);
+
+		String palindrome= sb.reverse().toString()+s;
 		return palindrome;
 	}
 
 
-	
+
 	public static void main(String[] args) {
-		
+
 		assertThat(new ShortestPalindrome().shortestPalindrome("abcd"), is("dcbabcd"));
 		assertThat(new ShortestPalindrome().shortestPalindrome("aacecaaa"), is("aaacecaaa"));
 		assertThat(new ShortestPalindrome().shortestPalindrome("aba"), is("aba"));
@@ -77,19 +99,19 @@ public class ShortestPalindrome {
 		assertThat(new ShortestPalindrome().shortestPalindrome("ababbbabbaba"), is("ababbabbbababbbabbaba"));
 		assertThat(new ShortestPalindrome().shortestPalindrome("aefekadkaldwe"), is("ewdlakdakefeaefekadkaldwe"));
 		assertThat(new ShortestPalindrome().shortestPalindrome("aallaldjj"), is("jjdlallaallaldjj"));
-		
+
 		StringBuffer sb=new StringBuffer();
 		for (int i = 0; i < 10000; i++) {
 			sb.append((char)(new Random().nextInt(26)+ 'a'));
 			//sb.append('a');
 		}
-		
+
 		long before=0;
 		String testString=sb.toString();
 		before=System.currentTimeMillis();
 		new ShortestPalindrome().shortestPalindrome(testString);
 		System.out.println("Excution time="+(System.currentTimeMillis()-before));
-		
+
 		System.out.println("All test cases passed");
 	}
 

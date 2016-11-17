@@ -3,6 +3,18 @@ package com.chawkalla.algorithms.examples.dp;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * https://leetcode.com/problems/partition-equal-subset-sum/
+ * 
+ * Given a non-empty array containing only positive integers, find if the array can be partitioned into two subsets 
+ * such that the sum of elements in both subsets is equal.
+ * Input: [1, 5, 11, 5]
+
+Output: true
+
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+ *
+ */
 public class PartitionSubsetSum {
 
 	public boolean canPartition(int[] nums) {
