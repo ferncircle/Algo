@@ -47,15 +47,14 @@ public class Bits {
 		return other;
 	}
 	
-	public static void countOnes(int number){
+	public static int countOnes(int number){
 		int count=0;
 		int temp=number;
 		while(temp!=0){
 			temp=temp&temp-1;
 			count++;
 		}
-		
-		System.out.println("number of ones for"+Integer.toBinaryString(number)+" ="+count);
+		return count;
 	}
 	
 	public static int addNumbers(int a, int b){
