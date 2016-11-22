@@ -17,7 +17,8 @@ bouncyBall(n, a) = 10.
  it may follow the path 1, 4, 6 but it may not follow the path 2, 3, 6. 
  *
  *Solution(for DP): For test cases, n=10, a=3
- * Start from backwards, notice one easy middle case when you are at step 3 and your next step is 7. How many previous steps are allowed before 3 with acceleration a=3?
+ * Start from backwards, notice one easy middle case when you are at step 3 and your next step is 7. 
+ * How many previous steps are allowed before 3 with acceleration a=3?
  * That would be 7-3=4 (nextjump-a). ie From steps -1, 0, 1, 2
  * Also, notice the special case at step 1
  */
