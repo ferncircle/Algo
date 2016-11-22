@@ -36,32 +36,38 @@ public class SubsetSum {
 	//you need two dimentional array since you can use one element at most once and you need to keep track if the element is already used or not
 	public static boolean isSumDP(int[] A, int sum){
 		boolean isPossible=false;		
-		boolean[][] dp=new boolean[sum+1][A.length+1];
+		boolean[][] dp=isSumGetDPTable(A, sum);
+		isPossible=dp[A.length][sum];
+		return isPossible;
+	}
+	
+	public static boolean[][] isSumGetDPTable(int[] A, int sum){
+		boolean[][] dp=new boolean[A.length+1][sum+1];
 		
 		//notice how it matches with recursion termination condition
 		
 		//sum 0, answer is true
-		for(int i=0;i<A.length;i++){	
-			dp[0][i]=true;
+		for(int i=0;i<=A.length;i++){	
+			dp[i][0]=true;
 		}
 		
 		//emtpy set
 		for(int i=1;i<sum;i++){	
-			dp[i][0]=false;
+			dp[0][i]=false;
 		}
-		
-		for(int i=1;i<=sum;i++){
-			
-			for(int j=1;j<=A.length;j++){
-				if(i-A[j-1]>=0)
-					dp[i][j]=dp[i][j-1] || dp[i-A[j-1]][j-1];
+		for(int i=1;i<=A.length;i++){	
+			int curElement=A[i-1];
+			for(int j=1;j<=sum;j++){	
+				int curSum=j;
+				dp[i][j]=dp[i-1][curSum]; //don't include current element
+				if(curSum-curElement>=0) //or include current element if possible to include
+					dp[i][j]=dp[i-1][j] || dp[i-1][curSum-curElement];
 			}
 		}
 		
-		PrimeSubsets.printBooleanMatrix(dp, sum+1, A.length+1);
+		//PrimeSubsets.printBooleanMatrix(dp, A.length+1, sum+1);
 		
-		isPossible=dp[sum][A.length];
-		return isPossible;
+		return dp;
 	}
 	
 	

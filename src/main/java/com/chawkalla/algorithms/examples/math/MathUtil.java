@@ -10,7 +10,10 @@ public class MathUtil {
 	}
 	
 	public static int lcm(int[] a){
-
+		if(a.length==0)
+			return 0;
+		if(a.length==1)
+			return a[0];
 		int t=0;
 		t=lcm(a[0], a[1]);
 		

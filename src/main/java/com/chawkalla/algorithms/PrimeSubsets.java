@@ -50,11 +50,15 @@ public class PrimeSubsets {
 	
 	
 	public static void printBooleanMatrix(boolean[][] a, int rows, int columns){
-		
+		System.out.print("    ");
+		for(int j=0;j<columns;j++){
+			System.out.print(j+"   ");
+		}
+		System.out.println();
 		for(int i=0;i<rows;i++){
-			
+			System.out.print(i+"   ");
 			for(int j=0;j<columns;j++){
-				System.out.print(a[i][j]+"   ");
+				System.out.print((a[i][j]?"T":"F")+"   ");
 			}
 			System.out.println();
 		}

@@ -6,29 +6,37 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 import com.chawkalla.algorithms.bean.Entry;
 import com.chawkalla.algorithms.ds.LinkedList;
 
 
+/**
+ * 
+ * Solution: Need three data structure:
+ * 1) HashMap : {StringKey -> frequency}
+ * 2) HashMap : {frequency -> Entry}
+ * 3) LinkedList : {Entry}  (maintains min, max list)
+ * 
+ * Entry: LinkedHashMap of key->value
+ */
 public class AllBigOOne {
 
-	LinkedList<Integer, HashSet<String>> minMaxList;
-	HashMap<Integer, Entry<Integer, HashSet<String>>> frequencyMap;
-	HashMap<String, Integer> repo;
-
+	HashMap<String, Integer> repo; //{Key -> frequency}
+	HashMap<Integer, Entry<Integer, LinkedHashMap<String, String>>> frequencyMap; //{frequency -> Entry}
+	LinkedList<Integer, LinkedHashMap<String, String>> minMaxList; //LinkedList : {Entry}  (maintains min, max list)
+	
 
 	/** Initialize your data structure here. */
 	public AllBigOOne() {
 		
 		repo=new HashMap<String, Integer>();		
-		frequencyMap=new HashMap<Integer, Entry<Integer,HashSet<String>>>();
-		minMaxList=new LinkedList<Integer, HashSet<String>>();
+		frequencyMap=new HashMap<Integer, Entry<Integer,LinkedHashMap<String, String>>>();
+		minMaxList=new LinkedList<Integer, LinkedHashMap<String, String>>();
 	}
-
-	/** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
-	public void inc(String key) {
+	
+	public void set(String key, String value){
 		if(key==null || key.length()==0)
 			return;
 		int newValue;
@@ -44,23 +52,36 @@ public class AllBigOOne {
 		repo.put(key, newValue);
 
 		//update frequency
-		updateFrequency(key, newValue, oldValue);	
+		updateValueAndFrequency(key, value, newValue, oldValue);		
 		
 	}
+	
+	public String get(String key){
+		String value=null;
+		if(key==null || key.length()==0)
+			return value;
+		
+		return value;
+	}
 
-	public void updateFrequency(String key, int newValue, int oldValue){
+	/** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
+	public void inc(String key) {
+		set(key, "1");
+	}
 
-		Entry<Integer, HashSet<String>> oldNode=frequencyMap.get(oldValue);
-		Entry<Integer, HashSet<String>> newNode=frequencyMap.get(newValue);
+	public void updateValueAndFrequency(String key, String value, int newValue, int oldValue){
+
+		Entry<Integer, LinkedHashMap<String, String>> oldNode=frequencyMap.get(oldValue);
+		Entry<Integer, LinkedHashMap<String, String>> newNode=frequencyMap.get(newValue);
 
 
 		if(newNode!=null){//if new node exists, then add key to data
 			if(newNode.data!=null)
-				newNode.data.add(key);
+				newNode.data.put(key,value);
 		}else if(newValue>0){ //if new node doesn't exist and greater than 1 then create one
-			HashSet<String> keys=new HashSet<String>();
-			keys.add(key);
-			newNode=new Entry<Integer, HashSet<String>>(keys, null, null);
+			LinkedHashMap<String, String> keys=new LinkedHashMap<String, String>();
+			keys.put(key,value);
+			newNode=new Entry<Integer, LinkedHashMap<String, String>>(keys, null, null);
 
 			if(oldNode!=null){
 				//now add new node in chain
@@ -108,7 +129,7 @@ public class AllBigOOne {
 				repo.put(key, newValue);
 
 			//update frequency
-			updateFrequency(key, newValue, oldValue);	
+			updateValueAndFrequency(key,"1", newValue, oldValue);	
 		}
 
 	}
@@ -117,9 +138,9 @@ public class AllBigOOne {
 	public String getMaxKey() {
 		String maxKey="";
 		
-		Entry<Integer, HashSet<String>> lastNode=minMaxList.last;
+		Entry<Integer, LinkedHashMap<String, String>> lastNode=minMaxList.last;
 		if(lastNode!=null && lastNode.data!=null){
-			maxKey=lastNode.data.iterator().next();
+			maxKey=lastNode.data.keySet().iterator().next();
 		}
 		
 		return maxKey;
@@ -130,9 +151,9 @@ public class AllBigOOne {
 	public String getMinKey() {
 		String minKey="";
 		
-		Entry<Integer, HashSet<String>> firstNode=minMaxList.head;
+		Entry<Integer, LinkedHashMap<String, String>> firstNode=minMaxList.head;
 		if(firstNode!=null && firstNode.data!=null){
-			minKey=firstNode.data.iterator().next();
+			minKey=firstNode.data.keySet().iterator().next();
 		}
 		return minKey;
 	}
