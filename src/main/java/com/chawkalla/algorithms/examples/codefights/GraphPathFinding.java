@@ -17,7 +17,8 @@ import java.util.Queue;
  *
  *Pathfinding
 
-Given a graph as a list of its edges, your task is to find the shortest path that starts at a start and visits each of the markedNodes exactly once. If it's impossible to do this, return -1 instead.
+Given a graph as a list of its edges, your task is to find the shortest path that starts at a start and visits
+ each of the markedNodes exactly once. If it's impossible to do this, return -1 instead.
 
 If you like the challenge, vote for it!
 Have fun :)
