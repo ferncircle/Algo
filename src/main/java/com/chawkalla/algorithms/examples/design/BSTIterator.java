@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms.examples.tree;
+package com.chawkalla.algorithms.examples.design;
 
 import java.util.Stack;
 
