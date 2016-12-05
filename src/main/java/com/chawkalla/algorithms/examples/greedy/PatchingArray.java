@@ -55,13 +55,13 @@ public class PatchingArray {
 	public static void main(String[] args) {
 
 		assertThat(new PatchingArray().minPatches(new int[]{1,2,31,33}, 2147483647), is(28));
-		/*assertThat(new PatchingArray().minPatches(new int[]{}, 8), is(4));
+		assertThat(new PatchingArray().minPatches(new int[]{}, 8), is(4));
 		assertThat(new PatchingArray().minPatches(new int[]{}, 10), is(4));
 		assertThat(new PatchingArray().minPatches(new int[]{5}, 10), is(3));
 		assertThat(new PatchingArray().minPatches(new int[]{1, 5, 10}, 20), is(2));
 		assertThat(new PatchingArray().minPatches(new int[]{1, 3}, 6), is(1));
 		assertThat(new PatchingArray().minPatches(new int[]{1, 2, 2}, 5), is(0));
-		assertThat(new PatchingArray().minPatches(new int[]{}, 0), is(0));*/
+		assertThat(new PatchingArray().minPatches(new int[]{}, 0), is(0));
 
 		System.out.println("All test cases passed");
 	}
