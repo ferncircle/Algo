@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms.examples;
+package com.chawkalla.algorithms.examples.tree;
 
 import java.util.ArrayList;
 import java.util.List;

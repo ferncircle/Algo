@@ -1,5 +1,8 @@
 package com.chawkalla.algorithms.examples;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -48,11 +51,10 @@ public class LargestNumber {
 	}
 	public static void main(String[] args) {
 		LargestNumber test=new LargestNumber();
+		assertThat(test.largestNumber(new int[]{3, 30, 34, 5, 9}), is("9534330"));
+		assertThat(test.largestNumber(new int[]{999999998,999999997,999999999}), is("999999999999999998999999997"));
 		
-		System.out.println(test.largestNumber(new int[]{3, 30, 34, 5, 9}));
-		System.out.println(test.largestNumber(new int[]{999999998,999999997,999999999}));
-		System.out.println(test.largestNumber(new int[]{0}));
-		
+		System.out.println("All test cases passed");	
 
 	}
 
