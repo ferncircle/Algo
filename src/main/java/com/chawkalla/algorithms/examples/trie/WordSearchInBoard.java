@@ -8,12 +8,11 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
+
+import com.chawkalla.algorithms.ds.Trie;
 
 
 /**
@@ -36,48 +35,7 @@ Return ["eat","oath"].
  */
 public class WordSearchInBoard {
 
-	public class Cell{
-		int row;
-		int col;
-		String wordSoFar;
-		HashSet<Cell> visited=new HashSet<Cell>();
-		public Cell(int row, int col, String wordSoFar) {
-			super();
-			this.row = row;
-			this.col = col;
-			this.wordSoFar = wordSoFar;
-		}
-		@Override
-		public String toString() {
-			return "row="+row+" col="+col+" word="+wordSoFar;
-		}
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + col;
-			result = prime * result + row;
-			return result;
-		}
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Cell other = (Cell) obj;
-			if (col != other.col)
-				return false;
-			if (row != other.row)
-				return false;
-			return true;
-		}
-		
-		
-		
-	}
+	
 	public List<String> findWords(char[][] board, String[] words) {
 		List<String> foundWords=new ArrayList<String>();
 		
@@ -85,212 +43,63 @@ public class WordSearchInBoard {
 				|| words==null || words.length==0)
 			return foundWords;
 		
-		HashSet<String> foundWordsSet=new HashSet<String>();
 		//insert all words in Trie Dictionary
 		Trie trie=new Trie();		
 		for (int i = 0; i < words.length; i++) {
 			trie.insert(words[i]);
 		}
 		
+		Set<String> found=new HashSet<String>();
 		//go through each cell
 		for (int i = 0; i < board.length; i++) {
-			char[] row=board[i];
-			for (int j = 0; j < row.length; j++) {
-				//do BFS
-				Queue<Cell> queue=new LinkedList<Cell>();
-				HashSet<Cell> visited=new HashSet<Cell>();
-				
-				Cell root=new Cell(i, j, ""+board[i][j]);
-				root.visited=visited;
-				if(trie.startsWith(root.wordSoFar))
-					queue.add(root);
-				while(!queue.isEmpty()){
-					Cell cell=queue.remove();
-					visited=cell.visited;
-					
-					visited.add(cell);
-					
-					if(trie.search(cell.wordSoFar)){
-						foundWordsSet.add(cell.wordSoFar);
-					}
-					
-					//get neighbors
-					//top
-					if(cell.row-1>=0){
-						Cell top=new Cell(cell.row-1, cell.col, cell.wordSoFar+board[cell.row-1][cell.col]);
-						if(!visited.contains(top) && trie.startsWith(top.wordSoFar)){
-							HashSet<Cell> visitedBefore=new HashSet<Cell>();
-							visitedBefore.addAll(visited);
-							top.visited=visitedBefore;
-							
-							queue.add(top);
-						}
-					}
-					
-					//right
-					if(cell.col+1<row.length){
-						Cell right=new Cell(cell.row, cell.col+1, cell.wordSoFar+board[cell.row][cell.col+1]);
-						if(!visited.contains(right) && trie.startsWith(right.wordSoFar)){
-							HashSet<Cell> visitedBefore=new HashSet<Cell>();
-							visitedBefore.addAll(visited);
-							right.visited=visitedBefore;
-							
-							queue.add(right);
-						}
-					}
-					
-					//bottom
-					if(cell.row+1<board.length){
-						Cell bottom=new Cell(cell.row+1, cell.col, cell.wordSoFar+board[cell.row+1][cell.col]);
-						if(!visited.contains(bottom) && trie.startsWith(bottom.wordSoFar)){
-							HashSet<Cell> visitedBefore=new HashSet<Cell>();
-							visitedBefore.addAll(visited);
-							bottom.visited=visitedBefore;
-							
-							queue.add(bottom);
-						}
-					}
-					
-					//left
-					if(cell.col-1>=0){
-						Cell left=new Cell(cell.row, cell.col-1, cell.wordSoFar+board[cell.row][cell.col-1]);
-						if(!visited.contains(left) && trie.startsWith(left.wordSoFar)){
-							HashSet<Cell> visitedBefore=new HashSet<Cell>();
-							visitedBefore.addAll(visited);
-							left.visited=visitedBefore;
-							
-							queue.add(left);
-						}
-					}
-					
-				}
-				
+			for (int j = 0; j < board[i].length; j++) {
+				wordSearchUtil(board, trie, i, j, new HashSet<Integer>(), new StringBuffer(), found);
 			}
 		}
-		foundWords.addAll(foundWordsSet);
-		Collections.sort(foundWords);
-		return foundWords;
+		
+		List<String> wordsFound=new ArrayList<String>(found);
+		Collections.sort(wordsFound);
+		return wordsFound;
 	}
 	
-	public class TrieNode {
-		public char c;
-		public HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
-		TrieNode[] letters=new TrieNode[26];
-		public boolean isLeaf;
+	public void wordSearchUtil(char[][] board, Trie trie, int i, int j, HashSet<Integer> visited, StringBuffer wordSoFar, Set<String> found){
+		if (i < 0 || j < 0 || i >= board.length || j >= board[i].length) {
+            return;
+        }
 		
-		public boolean containsKey(char key){
-			//return children.containsKey(key);
-			return letters[(int)key-97]!=null;
-		}
+		int cell=i*board[0].length+j;
 		
-		public void addKey(char key, TrieNode node){
-			//children.put(key, node);
-			letters[(int)key-97]=node;
-		}
+		if(visited.contains(cell))
+			return;		
 		
-		public TrieNode getKey(char key){
-			//return children.get(key);
-			return letters[(int)key-97];
-		}
+		wordSoFar.append(board[i][j]); //use this char
 		
-		public Set<Character> getAllKeys(){
-			//return children.keySet();
-			
-			HashSet<Character> keys=new HashSet<Character>();
-			for (int i = 0; i < letters.length; i++) {
-				if(letters[i]!=null)
-					keys.add((char)(i+97));
-				
-			}
-			return keys;
-			
+		String word=wordSoFar.toString();
+		if(!trie.startsWith(word)){
+			wordSoFar.deleteCharAt(wordSoFar.length()-1); //delete this char
+			return;
 		}
-
-		public TrieNode() {}
-
-		public TrieNode(char c){
-			this.c = c;
-		}
-
-		@Override
-		public String toString() {
-			StringBuffer sb=new StringBuffer();
-			sb.append(c+" ,");
-			if(children!=null)
-				sb.append(children.keySet()+ " ,");
-			sb.append("isLeaf="+isLeaf);
-			return sb.toString();
-		}
-	}
-	
-	public class Trie {
-
-		private TrieNode root;
-
-		public Trie() {
-			root = new TrieNode();
-		}
-
-		// Inserts a word into the trie.
-		public void insert(String word) {
-			TrieNode t = root;
-			for(int i=0; i<word.length(); i++){ 
-				char c = word.charAt(i);
-				
-				if(!t.containsKey(c)){
-					TrieNode child = new TrieNode(c);
-					t.addKey(c, child);
-					
-				}			
-				t = t.getKey(c);
-				//set leaf node
-				if(i==word.length()-1)
-					t.isLeaf = true;    
-			}
-		}
-
-		// Returns if the word is in the trie.
-		public boolean search(String word) {
-			TrieNode t = searchNode(word);
-
-			if(t != null && t.isLeaf) 
-				return true;
-			else
-				return false;
-		}
-
-		// Returns if there is any word in the trie
-		// that starts with the given prefix.
-		public boolean startsWith(String prefix) {
-			if(searchNode(prefix) == null) 
-				return false;
-			else
-				return true;
-		}
-
-		private TrieNode searchNode(String str){
-			return searchNode(root, str);
-		}
+		visited.add(cell);
 		
-		private TrieNode searchNode(TrieNode t, String str){
-			for(int i=0; i<str.length(); i++){
-				char c = str.charAt(i);
-				if(t.containsKey(c)){
-					t = t.getKey(c);
-				}else{
-					return null;
-				}
-			}
-
-			return t;
-		}
+		if(trie.search(word))
+			found.add(word);
+		
+		wordSearchUtil(board, trie, i+1, j, visited, wordSoFar, found);
+		wordSearchUtil(board, trie, i, j+1, visited, wordSoFar, found);
+		wordSearchUtil(board, trie, i-1, j, visited, wordSoFar, found);
+		wordSearchUtil(board, trie, i, j-1, visited, wordSoFar, found);
+		
+		wordSoFar.deleteCharAt(wordSoFar.length()-1); //delete this char
+		
+		visited.remove(cell);
+		
 	}
 	
 	
 	public static void main(String[] args) throws Exception {
 		long before=System.currentTimeMillis();
 				
-		String fileName="C:\\Github\\sandbox\\Algo\\src\\test\\resources\\dictionary_words.txt";
+		String fileName="C:\\code\\Github\\sandbox\\Misc\\src\\test\\resources\\dictionary_words.txt";
 		List<String> listOfWords=new ArrayList<String>();
 		String line=null;	
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
