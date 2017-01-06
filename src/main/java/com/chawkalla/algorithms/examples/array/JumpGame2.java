@@ -1,4 +1,4 @@
-package com.chawkalla.algorithms.examples.dp;
+package com.chawkalla.algorithms.examples.array;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -67,13 +67,45 @@ public class JumpGame2 {
         return hops;
     }
 	
+	/**
+	 * Same above O(n) algorithm, but easier to understand
+	 * 
+	 * Find max value in current jump range. For next max value, only search in remaining range
+	 */
+	public int jump3(int[] nums) {
+        int hops=0;
+        if(nums.length<=1)
+        	return 0;
+        
+        int maxIndex=0;
+        
+        for (int i = 0; i < nums.length; ) {
+        	hops++;
+        	int remainingRange=i+nums[maxIndex]-(i-maxIndex);
+        	i++;
+        	if(i>=nums.length-1)
+        		break;
+        	maxIndex=i;
+        	
+        	//find max value in current remaining jump range
+        	for(;i<nums.length && i<=remainingRange; i++){
+        		if(nums[i]>=nums[maxIndex])
+        			maxIndex=i;
+        	}
+        	
+		}
+        
+        return hops;
+    }
+		
 
 	public static void main(String[] args) {
-		assertThat(new JumpGame2().jump(new int[]{2,3,1,1,4}), is(2));
+		assertThat(new JumpGame2().jump3(new int[]{2,3,1,1,4}), is(2));
 		
 		
 		assertThat(new JumpGame2().jump2(new int[]{2,3,1,1,4}), is(2));
-		assertThat(new JumpGame2().jump2(new int[]{5,2,6,1,2,0,1,1,1}), is(2));
+		assertThat(new JumpGame2().jump2(new int[]{5,2,6,1,2,0,6,1,1,1,1,1,1,1}), is(4));
+		
 		
 		System.out.println("All test cases passed");
 	}

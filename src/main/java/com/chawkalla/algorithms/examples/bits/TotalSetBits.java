@@ -36,7 +36,7 @@ public class TotalSetBits {
 		
 		int a=(int)Math.pow(2, x);
 		
-		long totalOnesUptoAMinusOne=x*((int)Math.pow(2, x-1));
+		long totalOnesUptoAMinusOne=x*((int)Math.pow(2, x-1)); //constant operation
 		int countOfNumbersAToN=(n-(a-1));
 		long totalOnesAToN=countSetBitsUptoN(n-a);  //recursive
 		

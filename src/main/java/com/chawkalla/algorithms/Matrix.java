@@ -1,14 +1,16 @@
 package com.chawkalla.algorithms;
 
+import java.math.BigInteger;
+
 public class Matrix {
 
-	public static int[][] matrixMultiply(int[][] m, int[][] n){
-		int[][] r=null;
+	public static long[][] matrixMultiply(long[][] m, long[][] n){
+		long[][] r=null;
 		int mRowSize = m.length;
 		int mColumnSize = m[0].length;
 		int nColumnSize = n[0].length;
 
-		r = new int[mRowSize][nColumnSize];
+		r = new long[mRowSize][nColumnSize];
 
 		for (int i = 0; i < mRowSize; i++) { 
 			for (int j = 0; j < nColumnSize; j++) {
@@ -20,13 +22,46 @@ public class Matrix {
 		}		
 		return r;
 	}
+	
+	public static BigInteger[][] matrixMultiply(BigInteger[][] m, BigInteger[][] n){
+		BigInteger[][] r=null;
+		int mRowSize = m.length;
+		int mColumnSize = m[0].length;
+		int nColumnSize = n[0].length;
+
+		r = new BigInteger[mRowSize][nColumnSize];
+
+		for (int i = 0; i < mRowSize; i++) { 
+			for (int j = 0; j < nColumnSize; j++) {
+				if(r[i][j]==null)
+					r[i][j]=new BigInteger("0");
+				for (int k = 0; k < mColumnSize; k++) {
+					r[i][j]=r[i][j].add(m[i][k].multiply(n[k][j]));
+
+				}
+			}
+		}		
+		return r;
+	}
 
 
-	public static int[][] matrixPower(int[][] a, int power){
-		int[][] m=null;
+	public static long[][] matrixPower(long[][] a, int power){
+		long[][] m=null;
 		if(power<=1)
 			return a;
-		int[][] r=matrixPower(a, power/2);
+		long[][] r=matrixPower(a, power/2);
+		m=matrixMultiply(r, r);
+		if(power%2!=0){ 
+			m=matrixMultiply(m, a);
+		}
+		return m;
+	}	
+	
+	public static BigInteger[][] matrixPower(BigInteger[][] a, long power){
+		BigInteger[][] m=null;
+		if(power<=1)
+			return a;
+		BigInteger[][] r=matrixPower(a, power/2);
 		m=matrixMultiply(r, r);
 		if(power%2!=0){ 
 			m=matrixMultiply(m, a);
