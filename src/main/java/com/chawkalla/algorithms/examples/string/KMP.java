@@ -51,7 +51,8 @@ public class KMP {
 				if(j!=0){
 					//move j back but don't increment i yet 
 					//notice how you move back. consider "aabaa c aabaa b"
-					//c(at position j) doesn't match b(at position i). We want to move j to b instead of directly at position 0
+					//c(at position j) doesn't match b(at position i). We want to move j to b instead of directly 
+					//at position 0
 					j=a[j-1]; 
 				}else{
 					//reached at start and still characters didn't match, so put 0 and move on
@@ -68,6 +69,8 @@ public class KMP {
 		
 	}
 	public static void main(String[] args) {
+		
+		KMP.lps("abcabcabc");
 		assertThat(KMP.lps("aabaabaaa"), is(new int[]{0,1,0,1,2,3,4,5,2}));
 		
 		assertThat(KMP.lps("AAAA"), is(new int[]{0, 1, 2, 3}));

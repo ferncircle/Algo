@@ -24,7 +24,7 @@ The minimum number of jumps to reach the last index is 2. (Jump 1 step from inde
 public class JumpGame2 {
 
 	/**
-	 * DP solution O(n*n)
+	 * DP solution O(n^2)
 	 */
 	public int jump(int[] nums) {
         int min=0;

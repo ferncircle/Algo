@@ -17,21 +17,21 @@ import java.util.Stack;
  * Topological sort
  */
 public class CourseSchedule {
-	
-	
-	
+
+
+
 	public int[] findOrder(int numCourses, int[][] prerequisites) {
 		if(numCourses<=0)
 			return null;
 		int[] ret=new int[numCourses];
-		
+
 		//first crete dependency graph (adjacency list)
 		HashMap<Integer, List<Integer>> deps=createAdjList(prerequisites);	
-		
+
 		Stack<Integer> st=new Stack<Integer>();	
 		HashSet<Integer> visiting=new HashSet<Integer>();
 		HashSet<Integer> visited=new HashSet<Integer>();
-		
+
 		try {
 			for(int i=0;i<numCourses;i++){
 				visit(i, deps, visited, visiting, st);
@@ -39,14 +39,14 @@ public class CourseSchedule {
 		} catch (Exception e) {
 			return new int[0];
 		}
-		
+
 		int i=0;
 		while(!st.empty())
 			ret[i++]=st.pop();
-		
+
 		return ret;
 	}
-	
+
 	public static HashMap<Integer, List<Integer>> createAdjList(int[][] prerequisites){
 		HashMap<Integer, List<Integer>> deps=new HashMap<Integer, List<Integer>>();
 		if(prerequisites==null || prerequisites.length==0)
@@ -61,38 +61,41 @@ public class CourseSchedule {
 				list.add(value);
 				deps.put(key, list);
 			}
-				
+
 		}
 		return deps;
 	}
-	
+
 	public static void visit(int node, HashMap<Integer, List<Integer>> deps, 
 			HashSet<Integer> visited, HashSet<Integer> visiting, Stack<Integer> st){
 		if(visiting.contains(node))
 			throw new RuntimeException(); //cycle
+		if(visited.contains(node))
+			return;
+
 		visiting.add(node);
-		if(!visited.contains(node)){
-			List<Integer> dep=deps.get(node);
-			if(dep!=null){
-				for(int i:dep){
-					visit(i, deps, visited, visiting, st);
-				}
+
+		List<Integer> dep=deps.get(node);
+		if(dep!=null){
+			for(int i:dep){
+				visit(i, deps, visited, visiting, st);
 			}
-			
-			st.add(node);
-			visited.add(node);
-			
 		}
+
+		st.add(node);
+		visited.add(node);
+
+
 		visiting.remove(node);
 	}
 
 	public static void main(String[] args) {
-		
+
 		assertThat(new CourseSchedule().findOrder(4, new int[][]{{1,0},{2,0},{3,1},{3,2}}), is(new int[]{0, 2, 1, 3}));
 		assertThat(new CourseSchedule().findOrder(1, new int[][]{}), is(new int[]{0}));
 		assertThat(new CourseSchedule().findOrder(2, new int[][]{{1,0},{0,1}}), is(new int[]{}));
 		assertThat(new CourseSchedule().findOrder(4, new int[][]{{3,0},{0,1}}), is(new int[]{2,1,0,3}));
-		
+
 		System.out.println("All test cases passed");
 	}
 

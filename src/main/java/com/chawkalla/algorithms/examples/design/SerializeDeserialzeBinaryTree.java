@@ -4,8 +4,11 @@ package com.chawkalla.algorithms.examples.design;
  * https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
  * 
  * http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/
- * Solution: Use pre-order traversal to serialize tree, put $ to mark children of leaf nodes
- * Use pre-order to reconstruct tree from string data
+ * Solution: 
+ * 1) Use pre-order traversal to serialize tree, put $ if current node is null
+ * 2) Use pre-order to reconstruct tree from string data
+ * 3) Note that this can  be extended to n-ary tree. We just need to store how many children a node had
+ * 		Put that number after each node.
  * Time: O(n)
  * Space: O(n)
  */

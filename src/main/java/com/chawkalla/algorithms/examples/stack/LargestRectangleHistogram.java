@@ -7,7 +7,8 @@ import java.util.Stack;
 
 /**
  * https://leetcode.com/problems/largest-rectangle-in-histogram/
- * Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
+ * Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of 
+ * largest rectangle in the histogram.
 
 
 Above is a histogram where width of each bar is 1, given height = [2,1,5,6,2,3].
@@ -19,9 +20,11 @@ The largest rectangle is shown in the shaded area, which has area = 10 unit.
  * Logic: 
  * 	cases:
  * 			1) current element greater than or equal to previous then just add to stack
- * 			2) current element less than previous, then process each element from stack until current element is greater than or equal to top of stack
+ * 			2) current element less than previous, then process each element from stack until current element is greater
+ * 				 than or equal to top of stack
  * Notice the case: 2 5 4 6 1
- * When you are processing element 4, you need the range [5 4 6], the stack needs to have the values as [2 4], notice 2 appears just before 5 that'll give 
+ * When you are going back(in stack) and processing element 4, you need the range [5 4 6], the stack needs to have 
+ * the values as [2 4], notice 2 appears just before 5 that'll give 
  * starting range, end range is the current index
  */
 public class LargestRectangleHistogram {

@@ -3,9 +3,6 @@
  */
 package com.chawkalla.algorithms.examples.combination;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,11 +18,14 @@ public class HouseMailboxes {
 	
 	HashMap<String, Result> cache=new HashMap<String, Result>();
 	int cacheHit=0;
+	int totalHits;
 	public int minHouseToMailboxes(int[][] dist){
 		boolean[] mailBoxTaken=new boolean[dist.length];
 		Result r=findMin(dist, dist.length-1, mailBoxTaken);
 		int total=r.minCost;
 		System.out.println("CacheHit="+cacheHit);
+		
+		System.out.println("Total hits="+totalHits);
 		
 		System.out.println("Total="+total);
 		printMapping(r.path);
@@ -41,7 +41,7 @@ public class HouseMailboxes {
 		String cacheKey=createCacheKey(curHouse, mailBoxTaken);
 		if(cache.containsKey(cacheKey)){
 			cacheHit++;
-			return cache.get(cacheKey);
+			//return cache.get(cacheKey);
 		}
 		
 		
@@ -66,7 +66,7 @@ public class HouseMailboxes {
 		cache.put(cacheKey, minResult);
 		return minResult;
 	}
-	
+		
 	private String createCacheKey(int curHouse, boolean[] mailBoxTaken){
 		StringBuffer cacheKeyBuffer=new StringBuffer(""+curHouse+":");
 		ArrayList<Integer> list=new ArrayList<Integer>();
@@ -92,7 +92,7 @@ public class HouseMailboxes {
 	
 	public static void main(String[] args) {
 		
-		assertThat(new HouseMailboxes().minHouseToMailboxes(new int[][]{
+		/*assertThat(new HouseMailboxes().minHouseToMailboxes(new int[][]{
 			{2,	1,	3},
 
 			{1,	2,	4},
@@ -110,8 +110,8 @@ public class HouseMailboxes {
 			{3,	1,	1,	3}
 		}), is(6));
 		System.out.println();
-		
-		int n=15;
+		*/
+		int n=8;
 		Random rand=new Random();
 		int[][] dist=new int[n][n];
 		for (int i = 0; i < dist.length; i++) {

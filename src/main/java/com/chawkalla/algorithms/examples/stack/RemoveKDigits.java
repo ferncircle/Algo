@@ -7,7 +7,8 @@ import java.util.Stack;
 
 /**
  * https://leetcode.com/problems/remove-k-digits/
- * Given a non-negative integer num represented as a string, remove k digits from the number so that the new number is the smallest possible.
+ * Given a non-negative integer num represented as a string, remove k digits from the number so that the new number is 
+ * the smallest possible.
  * http://stackoverflow.com/questions/28223580/how-to-get-the-least-number-after-deleting-k-digits-from-the-input-number
  *
  * Goal is to keep stack ascending starting from bottom
@@ -33,7 +34,8 @@ public class RemoveKDigits {
 				//peek top of stack
 				int top=st.peek();
 				if(top>curDigit){
-					//remove from stack until stack becomes ascending(1,2,3 where 3 is top) and you still can potentially make up n-k digits using remaining+stack
+					//remove from stack until stack becomes ascending(1,2,3 where 3 is top) and you still can 
+					//potentially make up n-k digits using remaining+stack
 					while(top>curDigit && (st.size()+remaining)>=(n-k)){
 						//System.out.println("Removing "+st.peek()+" from stack");
 						st.pop();
