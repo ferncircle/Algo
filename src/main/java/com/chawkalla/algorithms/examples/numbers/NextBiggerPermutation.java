@@ -17,6 +17,13 @@ Here are some examples. Inputs are in the left-hand column and its corresponding
 1,1,5 ->s 1,5,1 
  e.g 1 7 9 8 4 will transform to 1 8 4 7 9
  * or  4 2 6 4 3 will transform to 4 3 2 4 6
+ * 
+ *  * Solution:
+ * 1) Take [1 7 9 8 4]
+ * 2) Find longest decreasing suffix [9 8 4] and remember its previous element [7]
+ * 3) Reverse that suffix [4 8 9]
+ * 4) find the smallest element in that suffix greater than previous element [8] > 7
+ * 5) Swap those elements [1 8 4 7 9]
  *
  */
 public class NextBiggerPermutation {
