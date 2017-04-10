@@ -24,7 +24,7 @@ For
 the output should be visiblePoints(points) = 6.
 
 Solution:
-1) Get all angles relative to positive x-axis (using arc tan (y/x)) for each point(x,y)
+1) Get all angles relative to positive x-axis (using arc tan (y/x)) for each point(x,y) passing through origin point(0,0)
 	Math.toDegrees(Math.atan2(y, x));
 	
 2) Sort those angles array and find the largest window 

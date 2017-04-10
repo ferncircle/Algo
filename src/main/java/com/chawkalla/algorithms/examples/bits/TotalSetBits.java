@@ -30,21 +30,39 @@ public class TotalSetBits {
 		int[] initialSolution=new int[]{0,1,2,4,5,7,9,12,13};
 		if(n<9)
 			return initialSolution[n];
-		
+
 		//get closest number that is power of 2 e.g. for n=12, a=8
-		int x=(int)(Math.log(n)/Math.log(2)); //log2(n)
-		
+		long x=(int)(Math.log(n)/Math.log(2)); //log2(n)
+
 		int a=(int)Math.pow(2, x);
-		
-		long totalOnesUptoAMinusOne=x*((int)Math.pow(2, x-1)); //constant operation
-		int countOfNumbersAToN=(n-(a-1));
-		long totalOnesAToN=countSetBitsUptoN(n-a);  //recursive
-		
-		
-		return totalOnesUptoAMinusOne+ totalOnesAToN+ countOfNumbersAToN ;
+
+		long totalOnesUptoAMinusOne=x*((int)Math.pow(2, x-1)); //constant operation, other way of doing this opeartion
+		totalOnesUptoAMinusOne=x*(1<<(x-1)); //which is equal to
+		totalOnesUptoAMinusOne=x<<(x-1);
+
+		long countOfNumbersAToN=(n-a);
+
+		//return totalOnesUptoAMinusOne+ countSetBitsUptoN(n-a)+ countOfNumbersAToN +1;
+		return (x<<(x-1))+ countSetBitsUptoN(n-a)+ (n-a) +1;
 		
 	}
-	
+
+
+	//another way of doing it
+	long totalOnes(int k) {
+		long s=0 , j=31;
+		for(; j-- > 0 ; ){
+			// s += (k>>j)<1? 0 : (j<<j-1) +(k-=1<<j) + 1 ;//short and nice way of doing it
+			if((k>>j)>0){  //
+				s+=j<<j-1;  //total ones from 1 to a (where a is highest number that is power of 2 and less than current number
+				k=k-(1<<j);
+				s+=k+1;
+			}
+		}
+
+		return s;
+	}
+
 	public static int totalBits(int n){
 		int total=0;
 		for (int i = 0; i <=n; i++) {
@@ -53,13 +71,15 @@ public class TotalSetBits {
 		return total;
 	}
 	public static void main(String[] args) {
-		
+
 		System.out.println(new TotalSetBits().countSetBitsUptoN(Integer.MAX_VALUE));
+		System.out.println(new TotalSetBits().totalOnes(Integer.MAX_VALUE));
+
 		assertThat(new TotalSetBits().countSetBitsUptoN(12), is(new Long(totalBits(12))));
 		assertThat(new TotalSetBits().countSetBitsUptoN(8), is(new Long(totalBits(8))));
-		
-		assertThat(new TotalSetBits().countSetBitsUptoN(17), is(new Long(totalBits(17))));
-		
+
+		assertThat(new TotalSetBits().countSetBitsUptoN((int)Math.pow(2, 18)), is(new Long(totalBits((int)Math.pow(2, 18)))));
+
 		System.out.println("all test cases passed");
 
 	}

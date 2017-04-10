@@ -16,24 +16,19 @@ public class Bits {
 		System.out.println("clear 3rd bit for "+Integer.toBinaryString(number)
 				+" " +Integer.toBinaryString(number&(~(1<<3))));
 		System.out.println("check power of 2?"+(((number&(number-1))==0)?"true":"false"));
+		System.out.println("Get power of 2^3="+(1<<3));
 		
 		System.out.println("all 1s:"+Integer.toBinaryString(~0));
 		System.out.println("all 1s - 111="+Integer.toBinaryString(~0-7));
-		System.out.println("set first i bits:"+Integer.toBinaryString(((1<<8)-1)^((1<<5)-1)));
+		System.out.println("set first i bits:"+Integer.toBinaryString((1<<5)-1));
 		
-		System.out.println("set first i to j bits:"+Integer.toBinaryString((1<<5)-1));
+		System.out.println("set first i to j bits:"+Integer.toBinaryString(((1<<8)-1)^((1<<5)-1)));
 		
-		System.out.println(Integer.parseInt("11100",2)+ "   "+Integer.parseInt("11010", 2)+"  "+Integer.parseInt("100011",2));
 		countOnes(19);
 		System.out.println("binary to integer 1000="+Integer.parseInt("1000", 2));
 		
-		assertThat(Bits.getIthBit(5, 1), is('0'));
-		assertThat(Bits.getIthBit(5, 0), is('1'));
-		assertThat(Bits.getIthBit(5, 2), is('1'));
-		assertThat(Bits.getIthBit(5, 4), is('0'));
-		assertThat(Bits.getIthBit(5, 31), is('0'));
-		assertThat(Bits.getIthBit(-100, 31), is('1'));
-		System.out.println(Integer.toBinaryString(-100));
+		System.out.println("Get ith bit="+Bits.getIthBit(5, 4));
+		System.out.println("Get binary prepresentation="+Integer.toBinaryString(197));
 		
 		System.out.println(Integer.toString(5, 2));
 		
