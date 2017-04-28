@@ -3,6 +3,8 @@ package com.chawkalla.algorithms.examples.string;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
+
 /**
  * http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/
  * https://www.youtube.com/watch?v=GTJr8OvyEVQ
@@ -70,7 +72,7 @@ public class KMP {
 	}
 	public static void main(String[] args) {
 		
-		KMP.lps("abcabcabc");
+		System.out.println(Arrays.toString(KMP.lps("abcabcad")));
 		assertThat(KMP.lps("aabaabaaa"), is(new int[]{0,1,0,1,2,3,4,5,2}));
 		
 		assertThat(KMP.lps("AAAA"), is(new int[]{0, 1, 2, 3}));

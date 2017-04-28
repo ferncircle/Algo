@@ -58,15 +58,13 @@ public class LinkedList<K, T> {
 		Entry<K,T> next=current.next;
 
 		while(next!=null){			
-			Entry<K,T> nextToNext=next.next;  //save nexttonext
 			current.next=prev;//change pointers
-			next.next=current;
-
 			//now move the window
 			prev=current;
 			current=next;
-			next=nextToNext;
+			next=next.next;
 		}
+		current.next=prev;//remember this last pointer adjustment
 		head=current;
 	}
 

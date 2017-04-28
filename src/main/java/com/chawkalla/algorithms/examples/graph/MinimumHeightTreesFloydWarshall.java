@@ -63,7 +63,7 @@ public class MinimumHeightTreesFloydWarshall {
 	}
 
 	public static void main(String[] args) {
-		/*System.out.println(new MinimumHeightTreesPlay().findMinHeightTrees(7, new int[][]{{0,1},{1,2},{1,3},{2,4},{3,5},{4,6}}));
+		System.out.println(new MinimumHeightTreesPlay().findMinHeightTrees(7, new int[][]{{0,1},{1,2},{1,3},{2,4},{3,5},{4,6}}));
 		System.out.println();
 		System.out.println(new MinimumHeightTreesPlay().findMinHeightTrees(3, new int[][]{{0,1},{0,2}}));
 		System.out.println();		
@@ -73,7 +73,7 @@ public class MinimumHeightTreesFloydWarshall {
 		System.out.println(new MinimumHeightTreesPlay().findMinHeightTrees(4, new int[][]{{1, 0}, {1, 2}, {1, 3}}));
 		System.out.println();
 		System.out.println(new MinimumHeightTreesPlay().findMinHeightTrees(6, new int[][]{{0, 3}, {1, 3}, {2, 3}, {4, 3}, {5, 4}}));
-		*/
+		
 		int n=1000;
 		int[][] a=new int[n][2];
 		for(int i=0;i<n;i++){

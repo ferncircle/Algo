@@ -28,9 +28,17 @@ public class Bits {
 		System.out.println("binary to integer 1000="+Integer.parseInt("1000", 2));
 		
 		System.out.println("Get ith bit="+Bits.getIthBit(5, 4));
-		System.out.println("Get binary prepresentation="+Integer.toBinaryString(197));
 		
-		System.out.println(Integer.toString(5, 2));
+		System.out.println("binary representation of 5="+"0b101"+"="+0b101);
+		String a="10101";
+		System.out.println(String.format("Getting number of the form %s = ((1<<%d))/3 = %s", a,a.length()+1, 
+				Integer.toBinaryString(((1<<a.length()+1))/3)));
+		
+		System.out.println(String.format("Count longest consecutive ones for 15 n & (n<<1)= %d", 
+				maxConsecutiveOnes(15)));
+		
+		System.out.println(String.format("Get lowest set bit n & ~(n-1)= 110 & 010 =10(2) =%d "
+				+ "or use Integer.lowestSetBit(n)", 6 & ~(5)));
 		
 		System.out.println("All test cases passed");
 	}
@@ -51,6 +59,25 @@ public class Bits {
 		}
 		return count;
 	}
+	
+	public static int maxConsecutiveOnes(int x)
+    {
+        
+        int count = 0;
+ 
+        // Count the number of iterations to
+        // reach x = 0.
+        while (x!=0)
+        {
+            // This operation reduces length
+            // of every sequence of 1s by one.
+            x = (x & (x << 1));
+ 
+            count++;
+        }
+ 
+        return count;
+    }
 	
 	public static int addNumbers(int a, int b){
 		if(b<=0)

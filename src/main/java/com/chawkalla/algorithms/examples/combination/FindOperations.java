@@ -11,7 +11,8 @@ import java.util.Stack;
 /**
  * https://codefights.com/challenge/8MvdB4ckhrEAwQFfT
  * 
- * Given a list of values, your task is to insert operators *, /, + and - between them so that the result of the equation would be equal to the given result. Return the correct equation as an answer.
+ * Given a list of values, your task is to insert operators *, /, + and - between them so that the result of the equation 
+ * would be equal to the given result. Return the correct equation as an answer.
 
 It is guaranteed that each test case has exactly one solution.
 

@@ -6,6 +6,8 @@ package com.chawkalla.algorithms.examples.codefights.inter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
+
 /**
  * https://codefights.com/interview/7pg6yZR4eZH8HAHCD
  * 
