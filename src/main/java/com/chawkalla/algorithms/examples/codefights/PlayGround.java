@@ -14,51 +14,38 @@ import java.util.HashMap;
  */
 public class PlayGround {
 
-	String minSubstringWithAllChars(String s, String t) {
-		if(s.isEmpty()) return "";
-		int b=0,e=0;
-		HashMap<Character, Integer> charCount=
-				new HashMap<Character,Integer>();
+	int[] partialSort(int[] input, int k) {
+		  int[] answer = new int[input.length];
+		  int m = 0;
+		  int infinity = (int) 1e3;
 
-		boolean[] check=new boolean[26];
-		for(int i=0;i<t.length();i++)
-			check[t.charAt(i)-'a']=true;
+		  for (int i = 0; i < k; i++) {
+		    int index = 0;
+		    for (int j = 0; j < input.length; j++) {
+		      if (input[j] < input[index]) {
+		        index = j;
+		      }
+		    }
+		    answer[m++] = input[index];
+		    input[index] = infinity;
+		  }
+		  m--;
+		  for (int i = 0; i < input.length; i++) {
+		    if (input[i] != infinity) {
+		      answer[m++] = input[i];
+		    }
+		  }
 
-		int minSize=Integer.MAX_VALUE;
-		int minIndex=0;
-		while(b<s.length()){
-			if(charCount.size()>=t.length() || e==s.length()){
-				if(charCount.size()>=t.length() && (e-b)<minSize){
-					minSize=e-b;
-					minIndex=b;
-				}
-
-				//shrink
-				////remove the char from window
-				if(charCount.containsKey(s.charAt(b)))
-					charCount.compute(s.charAt(b),(k,v)->v==1?null:v-1);          
-				b++;
-			}
-			else{
-				//expand				
-				if(check[s.charAt(e)-'a'])
-					charCount.compute(s.charAt(e),(k,v)->v==null?1:v+1);   
-				e++;
-			}
-
-
-
+		  return answer;
 		}
 
-		return s.substring(minIndex, minIndex+minSize);
-
-	}
+	
+	
 
 	public static void main(String[] args) {
 
-		assertThat(new PlayGround().minSubstringWithAllChars("adobecodebanc", "abc"),is("banc"));
-		assertThat(new PlayGround().minSubstringWithAllChars("abz", "abz"),is("abz"));
-		
+
+		assertThat(new PlayGround().partialSort(new int[]{999999998, 999999999, 1}, 2), is(new int[]{1, 999999998, 999999999}));
 		System.out.println("all cases passed");
 	}
 
