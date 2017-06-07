@@ -25,6 +25,31 @@ public class HouseRobber {
 		return nums[nums.length-1];
 	}
 	
+	public int robHouse2(int[] nums){
+		if(nums.length==0)
+			return 0;
+		/*int[] take=new int[nums.length+1];
+		int[] skip=new int[nums.length+1];
+		
+		for (int i = 1; i < take.length; i++) {
+			skip[i]=Math.max(skip[i-1], take[i-1]);
+			take[i]=nums[i-1]+skip[i-1];
+			
+		}*/
+		//Above translates to this, since we only care about dp values till i-1
+		int prevSkip=0;
+		int prevTake=0;
+		
+		for (int i = 0; i < nums.length; i++) {
+			int temp=prevSkip;
+			prevSkip=Math.max(prevSkip, prevTake);
+			prevTake=nums[i]+temp;
+			
+		}
+		
+		return Math.max(prevSkip, prevTake);
+	}
+	
 	public int rob(int[] nums) {
 		return robHouse(nums);
 	}
@@ -77,7 +102,7 @@ public class HouseRobber {
 		System.out.println(test.rob(nums));
 		System.out.println(test.robCircular(nums));
 		
-		assertThat(new HouseRobber().robHouse1(new int[]{4,2,1,3,5,2,12,4,4,2,5,0,4,2,4,3,10,2,31,23,5,6,2}), 
+		assertThat(new HouseRobber().robHouse2(new int[]{4,2,1,3,5,2,12,4,4,2,5,0,4,2,4,3,10,2,31,23,5,6,2}), 
 				is(new HouseRobber().rob(new int[]{4,2,1,3,5,2,12,4,4,2,5,0,4,2,4,3,10,2,31,23,5,6,2})));
 		
 		System.out.println("All test cases passed");

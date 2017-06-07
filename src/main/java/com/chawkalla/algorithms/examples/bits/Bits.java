@@ -42,6 +42,8 @@ public class Bits {
 
 		System.out.println(String.format("Get higest set bit n= %d"
 				+ " or use Integer.highestSetBit(n)", getHighestSetBit(9)));
+		
+		System.out.println("bitwise range AND:  0b1101 to 0b1111="+rangeBitwiseAnd(0b1101, 0b1111));
 		System.out.println("All test cases passed");
 	}
 
@@ -112,6 +114,28 @@ public class Bits {
 		int[] r=new int[]{a,1,0,a+1};
 		return r[a%4];
 	}
+	
+	/**
+	 * for 1101 --> 1111 the answer is 1100
+	 * 
+	 * We just need to remove extra last 1's from n until m=n
+	 * 
+	 */
+	public static int rangeBitwiseAnd(int m, int n) {
+		
+		while(m<n) n = n & (n-1);
+        return n;
+       /* if(m == 0){
+            return 0;
+        }
+        int moveFactor = 1;
+        while(m != n){
+            m >>= 1;
+            n >>= 1;
+            moveFactor <<= 1;
+        }
+        return m * moveFactor;*/
+    }
 
 	public static int getHighestSetBit(int n){
 		//bit smearing

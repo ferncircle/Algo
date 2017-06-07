@@ -26,8 +26,19 @@ Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant o
  *
  */
 public class LCABinaryTree {
+	public TreeNode lowestCommonAncestor(TreeNode cur, TreeNode p, TreeNode q) {
+		if(cur==null || cur==p || cur==q) return cur;
+		
+		TreeNode left=lowestCommonAncestor(cur.left, p, q);
+		TreeNode right=lowestCommonAncestor(cur.right, p, q);
+		if(left!=null && right!=null)
+			return cur;
+		if(left!=null)
+			return left;
+		return right;
+	}
 
-	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+	public TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
 
 		if(root==null || p==null || q==null)
 			return null;		

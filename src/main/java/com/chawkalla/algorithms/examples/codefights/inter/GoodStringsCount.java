@@ -139,9 +139,7 @@ public class GoodStringsCount {
 	    if(n < k)
 	        return 0;
 	    if(k == 0 || k == n)
-	        return 1;
-	    
-	    
+	        return 1;	    
 	    long[][] dp=new long[(int)n+1][(int)k+1];
 	    
 	    for (int i = 0; i < dp.length; i++) {

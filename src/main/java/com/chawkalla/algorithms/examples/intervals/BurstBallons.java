@@ -28,7 +28,9 @@ One way is to shoot one arrow for example at x = 6 (bursting the balloons [2,8] 
  *
  *
  *Solution: 1) sort by start time
- *2) For each point, look ahead and check if current end is greater than or equal to next start. Adjust end by comparing it with next point's end
+ *2) For each point, look ahead and check if current end is greater than or equal to next start. Adjust end by comparing it 
+ *with next point's end
+ *
  *
  * O(nlogn)+O(n)
  * 
@@ -60,7 +62,7 @@ public class BurstBallons {
 		int endBoundary=points[0][1];
         
         for (int i = 1; i < points.length; i++) {
-			if(endBoundary >= points[i][0]){
+			if(endBoundary >= points[i][0]){ //overlap
 				endBoundary=Math.min(endBoundary, points[i][1]);
 			}else{
 				endBoundary=points[i][1];

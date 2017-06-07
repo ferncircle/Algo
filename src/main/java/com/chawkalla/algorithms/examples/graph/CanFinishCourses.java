@@ -28,27 +28,24 @@ There are a total of 2 courses to take. To take course 1 you should have finishe
 public class CanFinishCourses {
 
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
-		boolean finish=true;
 		if(numCourses<2)
 			return true;
-		
+
 		HashMap<Integer, List<Integer>> deps=createAdjList(prerequisites);	
 
 		Stack<Integer> st=new Stack<Integer>();	
 		HashSet<Integer> visiting=new HashSet<Integer>();
 		HashSet<Integer> visited=new HashSet<Integer>();
 
-		try {
-			for(int i=0;i<numCourses;i++){
-				visit(i, deps, visited, visiting, st);
-			}
-		} catch (Exception e) {
-			return false;
+
+		for(int i=0;i<numCourses;i++){
+			if(!visit(i, deps, visited, visiting, st))
+				return false;
 		}
-		
-		return finish;
+
+		return true;
 	}
-	
+
 	public static HashMap<Integer, List<Integer>> createAdjList(int[][] prerequisites){
 		HashMap<Integer, List<Integer>> deps=new HashMap<Integer, List<Integer>>();
 		if(prerequisites==null || prerequisites.length==0)
@@ -56,36 +53,32 @@ public class CanFinishCourses {
 		for(int[] a:prerequisites){
 			int key=a[1];
 			int value=a[0];
-			if(deps.containsKey(key))
-				deps.get(key).add(value);
-			else{
-				ArrayList<Integer> list=new ArrayList<Integer>();
-				list.add(value);
-				deps.put(key, list);
-			}
-				
+			deps.compute(key, (k,v)->v==null?new ArrayList<Integer>():v);
+			deps.get(key).add(value);				
 		}
 		return deps;
 	}
-	
-	public static void visit(int node, HashMap<Integer, List<Integer>> deps, 
+
+	public static boolean visit(int node, HashMap<Integer, List<Integer>> deps, 
 			HashSet<Integer> visited, HashSet<Integer> visiting, Stack<Integer> st){
 		if(visiting.contains(node))
-			throw new RuntimeException(); //cycle
+			return false; //cycle
 		visiting.add(node);
 		if(!visited.contains(node)){
 			List<Integer> dep=deps.get(node);
 			if(dep!=null){
 				for(int i:dep){
-					visit(i, deps, visited, visiting, st);
+					if(!visit(i, deps, visited, visiting, st))
+						return false;
 				}
 			}
-			
+
 			st.add(node);
 			visited.add(node);
-			
+
 		}
 		visiting.remove(node);
+		return true;
 	}
 
 
