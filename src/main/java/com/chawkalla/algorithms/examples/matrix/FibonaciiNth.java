@@ -5,6 +5,10 @@ import java.math.BigInteger;
 
 import com.chawkalla.algorithms.Matrix;
 
+/**
+ * http://fusharblog.com/solving-linear-recurrence-for-programming-contest/
+ *
+ */
 public class FibonaciiNth {
 	
 	public static long fibMatrix(int n){

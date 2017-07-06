@@ -38,12 +38,15 @@ public class Bits {
 				maxConsecutiveOnes(15)));
 
 		System.out.println(String.format("Get lowest set bit n & ~(n-1)= 110 & 010 =10(2) =%d "
-				+ "or use Integer.lowestSetBit(n)", 6 & ~(5)));
+				+ "or use Integer.lowestSetBit(n)", 6 & ~(6-1)));
 
 		System.out.println(String.format("Get higest set bit n= %d"
 				+ " or use Integer.highestSetBit(n)", getHighestSetBit(9)));
 		
 		System.out.println("bitwise range AND:  0b1101 to 0b1111="+rangeBitwiseAnd(0b1101, 0b1111));
+		System.out.println(10 & -10);
+		System.out.println(10 & ~(10-1));
+		
 		System.out.println("All test cases passed");
 	}
 
