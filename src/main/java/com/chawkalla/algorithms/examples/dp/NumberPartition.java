@@ -6,7 +6,8 @@ import static org.junit.Assert.assertThat;
 import com.chawkalla.algorithms.utils.ArrayUtils;
 
 /**
- * Given array of positive numbers and number of dividers. Partition the array using all dividers to minimize the maximum sum in any partition.
+ * Given array of positive numbers and number of dividers. Partition the array using all dividers to minimize the maximum
+ *  sum in any partition.
  * 
  * Note that naive approach of (sumOfNumbers)/dividers won't work for the case, ({1,1,1,1,1,1,1,8,1}, 3)
  * 
@@ -28,30 +29,27 @@ public class NumberPartition {
 
 		int[] prefixSum=new int[n+1]; //prefix sum
 
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1; i <= n; i++) 
 			prefixSum[i]=prefixSum[i-1]+s[i-1];
-		}
-		for (int i = 1; i <= n; i++) {
-			m[i][1]=prefixSum[i];
-		}
-		for (int i = 1; i <=k; i++) {
-			m[1][i]=s[0];
-		}
+		
 
-		for (int i = 2; i <= n; i++) {
-			for (int j = 2; j <=k; j++) {
+		for (int i = 1; i < m.length; i++) {
+			for (int j = 1; j < m[0].length; j++) {
+				if(j==1){ //only one partition
+					m[i][j]=prefixSum[i];
+					continue;
+				}
+				if(i==1){ //only one element
+					m[i][j]=s[0];
+					continue;
+				}
 				m[i][j]=Integer.MAX_VALUE; //max cost for m[i][j], upto only i and using only j dividers
 				for (int x = 1; x <= i-1; x++) {
 
-					int currentCost=Math.max(
+					m[i][j]=Math.min(m[i][j], Math.max(
 							m[x][j-1], //one less divider for sub problem
 							prefixSum[i]-prefixSum[x]
-							);	
-					if(currentCost<m[i][j]){
-						//found better divider that minimizes the cost
-						m[i][j]=currentCost;
-						d[i][j]=x;
-					}
+							));
 				}
 			}
 		}

@@ -45,19 +45,11 @@ public class SwapLexOrder {
 				continue;
 			ArrayList<Integer> sortedComponent=new ArrayList<Integer>(component);
 			Collections.sort(sortedComponent);
-			Collections.sort(component, (a,b)->{
-				if(sol.charAt(a)<sol.charAt(b)){					
-					return 1;
-				}
-				else if(sol.charAt(a)>sol.charAt(b)){
-					return -1;
-				}				
-				return 0;
-			});
+			Collections.sort(component, (a,b)->sol.charAt(b)-sol.charAt(a));
 
-			for (int i = 0; i < sortedComponent.size(); i++) {
+			for (int i = 0; i < sortedComponent.size(); i++) 
 				sol.setCharAt(sortedComponent.get(i), str.charAt(component.get(i)));				
-			}
+			
 		}
 		str=sol.toString();
 

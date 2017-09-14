@@ -35,11 +35,10 @@ public class TotalSetBits {
 		long x=(int)(Math.log(n)/Math.log(2)); //log2(n)
 
 		int a=(int)Math.pow(2, x);
-
-		long totalOnesUptoAMinusOne=x*((int)Math.pow(2, x-1)); //constant operation, other way of doing this opeartion
-		totalOnesUptoAMinusOne=x*(1<<(x-1)); //which is equal to
-		totalOnesUptoAMinusOne=x<<(x-1);
-
+		a=Integer.highestOneBit(n); //other way of doing it
+		long totalOnesUptoAMinusOne=x*((int)Math.pow(2, x-1)); //constant operation, other way of doing this opeartion		
+		totalOnesUptoAMinusOne=(x*a)/2; //e.g. 0-7, each number is of 3 bits, there are equal no. of 0 and 1 in total. so no. of 1s=(8*3)/2
+				
 		long countOfNumbersAToN=(n-a);
 
 		//return totalOnesUptoAMinusOne+ countSetBitsUptoN(n-a)+ countOfNumbersAToN +1;
@@ -71,13 +70,13 @@ public class TotalSetBits {
 		return total;
 	}
 	public static void main(String[] args) {
-
+		
 		System.out.println(new TotalSetBits().countSetBitsUptoN(Integer.MAX_VALUE));
 		System.out.println(new TotalSetBits().totalOnes(Integer.MAX_VALUE));
 
 		assertThat(new TotalSetBits().countSetBitsUptoN(12), is(new Long(totalBits(12))));
 		assertThat(new TotalSetBits().countSetBitsUptoN(8), is(new Long(totalBits(8))));
-
+		assertThat(new TotalSetBits().countSetBitsUptoN(121241), is(new Long(totalBits(121241))));
 		assertThat(new TotalSetBits().countSetBitsUptoN((int)Math.pow(2, 18)), is(new Long(totalBits((int)Math.pow(2, 18)))));
 
 		System.out.println("all test cases passed");

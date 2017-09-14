@@ -7,60 +7,49 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * @author SFargose
+ * 1, If p.charAt(j) == s.charAt(i) :  dp[i][j] = dp[i-1][j-1];
+2, If p.charAt(j) == '.' : dp[i][j] = dp[i-1][j-1];
+3, If p.charAt(j) == '*': 
+   here are two sub conditions:
+               1   if p.charAt(j-1) != s.charAt(i) : dp[i][j] = dp[i][j-2]  //in this case, a* only counts as empty
+               2   if p.charAt(i-1) == s.charAt(i) or p.charAt(i-1) == '.':
+                              dp[i][j] = dp[i-1][j]    //in this case, a* counts as multiple a 
+                           or dp[i][j] = dp[i-1][j-2]   // in this case, a* counts as single a
+                           or dp[i][j] = dp[i][j-2]   // in this case, a* counts as empty
  *
  */
 public class RegularExpressionMatching {
 
-	boolean regularExpressionMatching(String s, String p) {
+	public boolean isMatch(String s, String p) {
 
 		boolean[][] dp=new boolean[s.length()+1][p.length()+1];
-
+		
 		for(int i=0;i<dp.length;i++){
-
 			for(int j=0;j<dp[0].length;j++){
 				if(i==0 && j==0){
 					dp[i][j]=true;
 					continue;
 				}
-				if(i>0 && j==0){
-					dp[i][j]= false;
+				if(j==0)
+					continue;
+				if(i==0){
+					if(p.charAt(j-1)=='*')
+						dp[i][j]=dp[i][j-2];
 					continue;
 				}
-				if(i==0 && j>0){
-					if(j>1 && p.charAt(1)=='*')
-						dp[i][j]=true;
-					continue;
-				}
-				char curChar=p.charAt(j-1);
-				char prevChar=(j>=2)?p.charAt(j-2):0;
-				char curTextChar=s.charAt(i-1);
-				switch(curChar){
-				case '.':
-					//return matchUtil(s,p, i-1, j-1);
-					dp[i][j]=dp[i-1][j-1];
-					break;
-				case '*':
-					boolean option=false;
-					char prev=prevChar;
-					int k=i;
-					//zero occurance
-					//option=option || matchUtil(s,p,i,j-2);
-					option=option || dp[i][j-2];
-					//one or more occurance while match
-					while(k>0 && (s.charAt(k-1)==prev || prev=='.')){
-						//option=option || matchUtil(s,p,k-1, j-2);
-						option=option || dp[k-1][j-2];
-						k--;
-					}
-					dp[i][j]=option;
-					break;
-				default:                        
-					if(i>0 && curTextChar==curChar &&
-					dp[i-1][j-1]) {
-						dp[i][j]=true;
-					}
 
+				if(s.charAt(i-1)==p.charAt(j-1) || p.charAt(j-1)=='.'){
+					dp[i][j]=dp[i-1][j-1];
+				}else{
+					if(p.charAt(j-1)=='*'){
+						if(p.charAt(j-2)==s.charAt(i-1) || p.charAt(j-2)=='.'){
+							dp[i][j]=dp[i-1][j] //a* is multiple of a
+									|| dp[i-1][j-2] // take both a and a*
+											|| dp[i][j-2]; //a* is empty
+						}else{
+							dp[i][j]=dp[i][j-2];
+						}
+					}
 				}
 
 			}
@@ -70,13 +59,17 @@ public class RegularExpressionMatching {
 	}
 
 
+
 	public static void main(String[] args) {
 
-		assertThat(new RegularExpressionMatching().regularExpressionMatching("aaa", ".*"), is(true));
-		assertThat(new RegularExpressionMatching().regularExpressionMatching("bb", "b"), is(false));
-		assertThat(new RegularExpressionMatching().regularExpressionMatching("caab", "d*c*x*a*b"), is(true));
-		assertThat(new RegularExpressionMatching().regularExpressionMatching("zab", "z.*"), is(true));
-		
+		assertThat(new RegularExpressionMatching().isMatch("", "a*"), is(true));
+
+		assertThat(new RegularExpressionMatching().isMatch("aaa", ".*"), is(true));
+		assertThat(new RegularExpressionMatching().isMatch("bb", "b"), is(false));
+		assertThat(new RegularExpressionMatching().isMatch("caab", "d*c*x*a*b"), is(true));
+		assertThat(new RegularExpressionMatching().isMatch("zab", "z.*"), is(true));
+		System.out.println("all cases passed");
 	}
 
+	
 }
