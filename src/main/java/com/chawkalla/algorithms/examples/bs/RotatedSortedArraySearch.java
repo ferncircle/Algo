@@ -12,6 +12,33 @@ import static org.junit.Assert.assertThat;
  */
 public class RotatedSortedArraySearch {
 
+
+	public int search(int[] a, int target) {
+        
+		int s=0, e=a.length-1;
+		
+		while(s<=e){
+			int m=(s+e)/2;
+			if(a[m]==target) return m;
+			if(a[m]>a[e]){
+				if(target>=a[s] && target<a[m]){
+					e=m-1;
+				}else{
+					s=m+1;
+				}
+					
+			}else if(a[m]<a[e]){
+				if(target>a[m] && target <=a[e])
+					s=m+1;
+				else
+					e=m-1;
+			}else{
+				e--;
+			}
+		}
+        
+        return -1;
+    }
 	public int search1(int[] a, int target) {
         //find index of smallest
         int s=0,e=a.length-1;
@@ -43,32 +70,6 @@ public class RotatedSortedArraySearch {
         return -1;
     }
 	
-	public int search(int[] a, int target) {
-        
-		int s=0, e=a.length-1;
-		
-		while(s<=e){
-			int m=(s+e)/2;
-			if(a[m]==target) return m;
-			if(a[m]>a[e]){
-				if(target>=a[s] && target<a[m]){
-					e=m-1;
-				}else{
-					s=m+1;
-				}
-					
-			}else if(a[m]<a[e]){
-				if(target>a[m] && target <=a[e])
-					s=m+1;
-				else
-					e=m-1;
-			}else{
-				e--;
-			}
-		}
-        
-        return -1;
-    }
 	
 	public static void main(String[] args) {
 

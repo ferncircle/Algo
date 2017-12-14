@@ -24,7 +24,7 @@ public class KMP {
 		boolean done=false;
 		int j=0;
 		int i=1;
-		while(!done){
+		while(i<a.length){
 			/*if(s.charAt(i)==s.charAt(j)){	
 				a[i]=j+1;
 				j++;
@@ -46,9 +46,7 @@ public class KMP {
 			
 			//better option
 			if(s.charAt(i)==s.charAt(j)){	
-				a[i]=j+1;
-				j++;
-				i++;
+				a[i++]=(j++)+1;
 			}else{
 				if(j!=0){
 					//move j back but don't increment i yet 
@@ -58,13 +56,9 @@ public class KMP {
 					j=a[j-1]; 
 				}else{
 					//reached at start and still characters didn't match, so put 0 and move on
-					a[i]=0; 
-					i++;
+					a[i++]=0; 
 				}				
 			}
-			
-			if(i>=a.length)
-				done=true;
 		}
 		
 		return a;

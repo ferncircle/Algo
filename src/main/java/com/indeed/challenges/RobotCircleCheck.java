@@ -7,14 +7,19 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * @author SFargose
  *
  */
 public class RobotCircleCheck {
-
-
+	
+	/*static int x=0,y=0;
+	static char curDir='N';
+	static HashSet<String> visited=new HashSet<String>();
+	*/
+	
 	static String[] doesCircleExist(String[] commands) {
 		String[] res=new String[commands.length];
 		HashMap<Character, Character> left=new HashMap<Character, Character>();
@@ -29,6 +34,7 @@ public class RobotCircleCheck {
 		right.put('W', 'N');
 		right.put('S', 'W');		
 
+		
 		for(int i=0;i<commands.length;i++)
 			res[i]=checkForCircle(commands[i], left, right)?"YES":"NO";
 		
@@ -37,11 +43,10 @@ public class RobotCircleCheck {
 
 	static boolean checkForCircle(String s,  HashMap<Character, Character> left,
 			HashMap<Character, Character> right){
-		if(s.equals("L") || s.equals("R"))
-			return true;	
+		
 		int x=0,y=0;
-		s=s+s+s+s;
-		char curDir='E';
+		char curDir='N';
+		
 
 		for(int i=0;i<s.length();i++){
 			char curMove=s.charAt(i);
@@ -60,23 +65,26 @@ public class RobotCircleCheck {
 				}
 			}
 			
-			if(x==0 && y==0) 
-				return true;
 		}
 
-		return false;
+		if(curDir=='N' && (x*x+y*y)>0)
+			return false;
+		else
+			return true;
 
 
 	}
 
 
 	public static void main(String[] args) {
-		assertThat(doesCircleExist(new String[]{"GL"}), is(new String[]{"YES"}));
-		assertThat(doesCircleExist(new String[]{"GLLG"}), is(new String[]{"YES"}));
 
-		assertThat(doesCircleExist(new String[]{"GRGL"}), is(new String[]{"NO"}));
 
-		assertThat(doesCircleExist(new String[]{"G","L"}), is(new String[]{"NO","YES"}));
+		assertThat(new RobotCircleCheck().doesCircleExist(new String[]{"GL"}), is(new String[]{"YES"}));
+		assertThat(new RobotCircleCheck().doesCircleExist(new String[]{"GRGL"}), is(new String[]{"NO"}));
+		assertThat(new RobotCircleCheck().doesCircleExist(new String[]{"GLLG"}), is(new String[]{"YES"}));
+
+
+		assertThat(new RobotCircleCheck().doesCircleExist(new String[]{"G","L"}), is(new String[]{"NO","YES"}));
 
 		System.out.println("all cases passed");
 	}
