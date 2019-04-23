@@ -43,7 +43,7 @@ public class PermutationDuplicates {
 	public static void main(String[] args){
 		
 		ArrayList<Integer> a=new ArrayList<Integer>();
-		for(int i:new int[]{1,1,2})
+		for(int i:new int[]{1,1,2,2})
 			a.add(i);
 		for(ArrayList<Integer> o: new PermutationDuplicates().permute(a)){
 			System.out.println(o);

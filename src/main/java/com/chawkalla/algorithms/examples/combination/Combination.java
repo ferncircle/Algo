@@ -47,9 +47,10 @@ public class Combination {
 					continue;
 				}
 				
-				dp[i][j]=dp[i-1][j-1];//choose current j, so total items(n) left will be n-1 and k will be k-1
-				if((i-j)>=0)
-					dp[i][j]+=dp[i-1][j];//don't choose current j
+				long option1=dp[i-1][j-1];//choose current j, so total items(n) left will be n-1 and k will be k-1
+				long option2=dp[i-1][j];
+				
+				dp[i][j]=option1+option2;//don't choose current j
 			}
 		}
 	    
@@ -58,7 +59,7 @@ public class Combination {
 	}
 	
 	public static void main(String[] args) {
-		int n=4;
+		int n=10;
 		int k=3;
 
 		System.out.println(nCk(n, k));
